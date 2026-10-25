@@ -1,1 +1,310 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="科研、个人学习与家庭教育的本地工作台">
+  <title>知行 · 个人工作台（单文件版）</title>
+<style>
+@charset "UTF-8";
+:root{--ink:#253a34;--muted:#7b857f;--green:#255b49;--dark:#183d34;--paper:#f6f7f3;--border:#e2e7df;--gold:#c39b55;--red:#b65a47;--radius:16px;font-family:"Microsoft YaHei UI","Microsoft YaHei","PingFang SC",sans-serif;font-size:14px;color:var(--ink);background:var(--paper)}
+*{box-sizing:border-box}body{margin:0}button,input,select,textarea{font:inherit}button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}button,a{touch-action:manipulation}button{cursor:pointer}a{color:inherit;text-decoration:none}button{border:0;background:none;color:inherit}button:disabled{opacity:.45;cursor:wait}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #9cb8a8;outline-offset:3px}h1,h2,h3,p{margin:0}h1{font-size:31px;letter-spacing:-1px;font-weight:600}h2{font-size:18px;font-weight:600}h3{font-size:16px;font-weight:600}small{font-size:12px}svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.sidebar{position:fixed;inset:0 auto 0 0;width:228px;background:var(--dark);color:#e4ede5;padding:35px 20px;display:flex;flex-direction:column;z-index:10}.brand{display:flex;align-items:center;gap:13px;padding:0 13px 40px;font-size:25px;letter-spacing:4px;font-family:"STSong","SimSun",serif}.brand-mark{background:#e8d8af;color:var(--dark);width:41px;height:45px;border-radius:11px;display:grid;place-items:center;letter-spacing:0;font-size:25px}.brand small{display:block;font:10px "Microsoft YaHei",sans-serif;letter-spacing:3px;color:#aebfb4;margin-top:6px}.nav-label{font-size:10px;letter-spacing:2px;color:#92a79b;padding:0 15px;margin-bottom:14px}nav{display:flex;flex-direction:column;gap:7px}.nav-item{display:flex;align-items:center;gap:13px;padding:14px 16px;border-radius:9px;font-size:14px;color:#bccfc2}.nav-item:hover{background:#244b40}.nav-item.active{background:#315b4c;color:#fff}.nav-item .nav-dot{margin-left:auto;width:6px;height:6px;border-radius:50%;background:#d8c48e}.sidebar-bottom{margin-top:auto;padding:25px 10px 0}.local-indicator{font-size:11px;color:#b6c8bc;display:flex;align-items:center;gap:8px}.local-indicator span{width:6px;height:6px;background:#a3c49a;border-radius:50%}.sidebar-bottom p{font-size:10px;color:#92a99a;line-height:1.8;margin:12px 0 25px}.sidebar-button{display:block;text-align:left;font-size:12px;color:#b7c9bd;padding:9px 0}.sidebar-button:hover{color:white}.workspace{margin-left:228px;min-height:100vh;display:flex;flex-direction:column}.topbar{height:85px;padding:0 44px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:20px;background:#fbfcf8}.breadcrumbs{font-size:12px;color:#7e8881;white-space:nowrap}.top-actions{display:flex;align-items:center;gap:20px}.search-box{display:flex;align-items:center;gap:9px;color:#929a94}.search-box>span{font-size:26px}.search-box input{border:0;background:transparent;outline:0;font-size:12px;width:220px;color:var(--ink)}kbd{border:1px solid var(--border);border-radius:4px;padding:2px 6px;font:11px sans-serif}.button{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 17px;border-radius:8px;border:1px solid var(--border);background:white;font-size:12px;white-space:nowrap;font-weight:500}.button:hover{border-color:#a8b7a9;background:#f4f8f0}.button.primary{background:var(--green);color:white;border-color:var(--green)}.button.primary:hover{background:#174433}.button.subtle{background:none;border:0;padding:7px;color:var(--green)}.button.small{padding:8px 11px;font-size:11px}.button.danger{color:var(--red)}main{padding:35px 44px 50px;max-width:1540px;width:100%;margin:auto;flex:1}.page-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:28px}.eyebrow{font-size:10px;letter-spacing:2.5px;color:var(--muted);margin-bottom:10px}.subtitle{font-size:12px;color:var(--muted);line-height:1.8;margin-top:11px}.date-badge{font-size:12px;color:#8d958b;white-space:nowrap}.overview-grid{display:grid;grid-template-columns:1.8fr 1fr;gap:22px}.hero{background:#e9eee3;border:1px solid #dde4d7;border-radius:var(--radius);padding:30px;position:relative;overflow:hidden;min-height:212px;display:flex;flex-direction:column;justify-content:center}.hero:after{content:"";position:absolute;right:-40px;top:-50px;width:260px;height:260px;border:1px solid #cad7c3;border-radius:50%;box-shadow:0 0 0 30px #dfe7d780,0 0 0 60px #e4eadc80;pointer-events:none}.hero>*{position:relative;z-index:1}.hero .eyebrow{color:#7c8f73}.hero h2{font-family:"STSong","SimSun",serif;font-size:29px;font-weight:400;line-height:1.6}.hero p{font-size:12px;color:#7a8771;line-height:1.8;margin:10px 0 18px;max-width:75%}.hero .button{align-self:flex-start}.metric-card{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:24px}.section-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}.section-heading .muted{font-size:11px}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:24px 16px;margin-top:27px}.metric-value{font-size:31px;font-family:Georgia,serif;color:var(--green);line-height:1}.metric-label{font-size:11px;color:var(--muted);margin-top:9px}.metric-value.alert{color:var(--red)}.module-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:25px 0 30px}.module-card{border:1px solid var(--border);border-radius:var(--radius);padding:22px;background:white;transition:transform .15s,border-color .15s}.module-card:hover{transform:translateY(-3px);border-color:#a8b9a5}.module-icon{height:38px;width:38px;border-radius:10px;display:grid;place-items:center;margin-bottom:20px;background:#edf1e9;color:#617d56}.module-icon.gold{background:#f7f0df;color:#a48b4c}.module-icon.blue{background:#e9f0f4;color:#61869b}.module-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}.module-head span{font-size:20px;color:#a2ada2}.module-card p{font-size:11px;color:var(--muted);line-height:1.8}.module-stat{display:flex;align-items:center;gap:8px;border-top:1px solid #edf0e9;margin-top:20px;padding-top:14px;font-size:11px;color:var(--muted)}.module-stat strong{font-family:Georgia,serif;font-size:20px;font-weight:400;color:var(--ink)}.lower-grid{display:grid;grid-template-columns:1.8fr 1fr;gap:22px}.panel{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:24px}.panel+.panel{margin-top:20px}.lower-grid>.panel+.panel{margin-top:0}.empty{padding:34px 16px;text-align:center;color:var(--muted);font-size:12px;line-height:1.9}.empty-icon{display:grid;place-items:center;width:46px;height:46px;background:#f3f5ef;color:#91a084;border-radius:14px;margin:0 auto 12px}.empty .button{margin-top:15px}.empty strong{display:block;color:#526348;font-size:13px;font-weight:500;margin-bottom:4px}.task-row{display:flex;align-items:flex-start;gap:12px;padding:15px 0;border-bottom:1px solid #edf0e9}.task-row:last-child{border:0}.task-check{height:18px;width:18px;border:1.5px solid #c7d0c2;border-radius:5px;flex-shrink:0;margin-top:2px;padding:0;display:grid;place-items:center;font-size:12px}.task-check.done{background:var(--green);border-color:var(--green);color:#fff}.task-row .task-body{flex:1;min-width:0}.task-title{text-align:left;padding:0;font-size:13px;line-height:1.6;word-break:break-word}.task-row.completed .task-title{color:#939c94;text-decoration:line-through}.task-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:5px;font-size:10px;color:var(--muted)}.task-date{font-size:11px;white-space:nowrap;color:var(--muted);padding-top:4px}.overdue{color:var(--red)!important}.tag{display:inline-flex;align-items:center;padding:4px 8px;border-radius:5px;background:#f0f4eb;color:#6c805b;font-size:10px;white-space:nowrap}.tag.gold{background:#f7f1e3;color:#a1894e}.tag.blue{background:#eaf1f6;color:#608496}.tag.gray{background:#f0f1ed;color:#838b81}.tag.red{background:#faeee9;color:var(--red)}.recent-item{padding:14px 0;border-bottom:1px solid #edf0e9;display:flex;gap:11px}.recent-item:last-child{border:0}.recent-item .mini-icon{width:32px;height:32px;display:grid;place-items:center;flex-shrink:0;border:1px solid var(--border);border-radius:9px;color:#7f9677}.recent-item h3{font-size:12px;line-height:1.6;font-weight:500;word-break:break-word}.recent-item p{font-size:10px;color:var(--muted);margin-top:5px}.muted{color:var(--muted)}.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:23px;flex-wrap:wrap}.tabs{display:flex;background:#e9ede4;padding:4px;border-radius:9px;gap:3px}.tabs button{font-size:12px;padding:9px 17px;border-radius:6px;color:#7d8875}.tabs button.active{background:white;color:var(--ink);box-shadow:0 1px 4px #243b2c08}.toolbar .spacer{flex:1}.toolbar select{background:white;border:1px solid var(--border);border-radius:7px;padding:9px 12px;color:var(--muted);font-size:12px}.entity-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.entity-card{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:23px;display:flex;flex-direction:column;min-height:205px}.entity-card:hover{border-color:#a8b9a5}.entity-card-top{display:flex;justify-content:space-between;gap:12px;margin-bottom:16px}.entity-card h3{line-height:1.6;margin-bottom:10px;word-break:break-word}.entity-card p{font-size:12px;color:var(--muted);line-height:1.9;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-line}.entity-card .card-footer{margin-top:auto;padding-top:22px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#8c9587;gap:12px}.progress-track{height:4px;background:#eff2e9;border-radius:10px;overflow:hidden;margin:18px 0 0}.progress-track span{display:block;height:100%;background:#94ad7e}.back-link{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);margin-bottom:22px}.detail-layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,1fr);gap:22px}.detail-title{font-size:28px;line-height:1.5;word-break:break-word}.detail-fields{display:grid;grid-template-columns:1fr 1fr;gap:22px}.detail-field.wide{grid-column:1/-1}.detail-field dt{font-size:11px;color:#909988;margin-bottom:9px}.detail-field dd{margin:0;font-size:13px;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere}.info-note{font-size:11px;color:#819071;line-height:1.9;background:#f2f5ed;border:1px solid #e5ebdc;border-radius:9px;padding:13px 15px;margin:15px 0}.file-row{display:flex;align-items:center;gap:10px;padding:13px 0;border-bottom:1px solid #edf0e9}.file-row:last-child{border:0}.file-row svg{color:#7f9677}.file-row>div{min-width:0;flex:1}.file-row a,.file-row strong{font-size:12px;font-weight:400;overflow-wrap:anywhere}.file-row a:hover{color:var(--green);text-decoration:underline}.file-row small{display:block;margin-top:6px;font-size:10px;color:var(--muted)}.job-row{border-top:1px solid #edf0e9;padding:14px 0}.job-row button{display:flex;width:100%;text-align:left;gap:12px;justify-content:space-between;font-size:12px;align-items:center}.review-item{padding:14px 0;border-top:1px solid #edf0e9}.review-item p{font-size:12px;line-height:1.8;margin-top:8px;white-space:pre-wrap}.review-item small{color:var(--muted);font-size:10px;display:block;margin-top:8px}.score-number{font-size:30px;font-family:Georgia,serif;color:var(--green)}.score-number small{font:12px sans-serif;color:var(--muted);margin-left:4px}.privacy-banner{background:#edf1e7;border:1px solid #dce6d3;color:#72835f;font-size:12px;border-radius:8px;padding:12px 16px;margin-bottom:20px}.loading{padding:70px;text-align:center;color:var(--muted)}.error-box{padding:30px;background:#fff4ed;border:1px solid #edcbb6;border-radius:12px;line-height:1.8;color:#9c5036}.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.settings-grid .panel+.panel{margin:0}.settings-grid .full{grid-column:1/-1}.settings-grid p{font-size:12px;line-height:1.9;color:var(--muted);margin:10px 0 18px}.path{display:block;word-break:break-all;background:#f5f7f1;border-radius:7px;padding:12px;font-size:11px;margin-bottom:18px}.backup-row{display:flex;align-items:center;gap:15px;border-top:1px solid var(--border);padding:15px 0}.backup-row>div{flex:1;min-width:0;overflow-wrap:anywhere}.backup-row strong{font-size:12px;font-weight:400}.backup-row small{display:block;color:var(--muted);font-size:10px;margin-top:5px}footer{margin:0 44px;padding:22px 0;border-top:1px solid var(--border);font-size:9px;letter-spacing:2px;color:#a1aa9b;display:flex;justify-content:space-between}footer span{letter-spacing:1px}dialog{border:1px solid #dbe3d6;padding:0;border-radius:18px;box-shadow:0 30px 100px #172c2340;width:min(660px,calc(100% - 28px));max-height:90vh;color:var(--ink)}dialog::backdrop{background:#20362c70;backdrop-filter:blur(3px)}.dialog-header{display:flex;justify-content:space-between;align-items:center;padding:25px 28px 18px;position:sticky;top:0;background:white;z-index:2;border-bottom:1px solid var(--border)}.dialog-header h2{font-size:20px}.close{padding:4px 8px;font-size:23px;color:var(--muted)}.dialog-body{padding:22px 28px}.dialog-actions{position:sticky;bottom:0;display:flex;justify-content:flex-end;gap:10px;background:#fafbf7;padding:17px 28px;border-top:1px solid var(--border);z-index:2}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.field{display:flex;flex-direction:column;gap:8px;font-size:12px;color:#5d6c55}.field.wide{grid-column:1/-1}.field input,.field select,.field textarea{border:1px solid #dce3d5;border-radius:7px;padding:10px 11px;width:100%;background:white;color:var(--ink);font-size:13px;min-height:40px}.field input::placeholder,.field textarea::placeholder{color:#b0b7a8}.field textarea{resize:vertical;min-height:92px;line-height:1.7}.field textarea.long{min-height:150px}.field .help{font-size:10px;color:#98a18f;line-height:1.7}.field input[type=checkbox]{width:16px;min-height:16px;accent-color:var(--green)}.check-field{display:flex;gap:10px;align-items:center;font-size:12px;margin:10px 0;line-height:1.7;overflow-wrap:anywhere}.check-field input{accent-color:var(--green)}.check-list{grid-column:1/-1;padding:12px 15px;background:#f6f8f2;border-radius:9px;max-height:230px;overflow:auto}.check-list>p{font-size:12px;margin-bottom:10px;color:#6d7d5f}.form-error{font-size:12px;color:var(--red);line-height:1.8;margin-top:15px;white-space:pre-wrap}.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.quick-card{text-align:left;border:1px solid var(--border);border-radius:11px;padding:20px;background:white;display:flex;gap:12px;align-items:flex-start}.quick-card:hover{background:#f2f6eb;border-color:#9aaf8c}.quick-card svg{color:#789267}.quick-card strong{font-size:13px;font-weight:500}.quick-card small{display:block;color:var(--muted);font-size:10px;margin-top:8px;line-height:1.7}.toast{position:fixed;bottom:26px;left:calc(50% + 100px);transform:translate(-50%,20px);padding:13px 23px;border-radius:9px;background:#213e32;color:white;box-shadow:0 10px 30px #1d332724;z-index:100;opacity:0;pointer-events:none;transition:.2s;font-size:12px;max-width:80vw;line-height:1.7}.toast.visible{opacity:1;transform:translate(-50%,0)}.inline-actions{display:flex;gap:8px;flex-wrap:wrap}.job-instructions{font-size:12px;line-height:1.9;white-space:pre-wrap;background:#f5f7f1;border-radius:8px;padding:16px;margin:14px 0}.hint-label{font-size:11px;color:var(--muted);margin:16px 0 7px}.archived-hint{font-size:11px;color:#a38c61;margin-bottom:14px}.mobile-title{display:none}
+@media(min-width:1500px){main{padding-top:45px}.hero{min-height:236px}.module-card{padding:26px}}
+@media(max-width:1150px){.sidebar{width:190px;padding:30px 13px}.workspace{margin-left:190px}.topbar{padding:0 28px}main{padding:30px 28px}.search-box input{width:180px}.overview-grid,.lower-grid{grid-template-columns:1.45fr 1fr}.hero{padding:25px}.hero h2{font-size:25px}.hero p{max-width:87%}.module-card{padding:18px}.detail-layout{grid-template-columns:1fr}.detail-layout>aside{display:grid;grid-template-columns:1fr 1fr;gap:20px}.detail-layout>aside>.panel{margin:0}.top-actions{gap:12px}footer{margin:0 28px}}
+@media(max-width:850px){.sidebar{width:78px;padding:24px 9px}.brand{padding:0 8px 30px}.brand>span:last-child,.nav-label,.nav-item>span,.sidebar-bottom{display:none}.brand-mark{width:36px;height:40px;flex-shrink:0}.nav-item{padding:16px;justify-content:center}.nav-item .nav-dot{display:none}.workspace{margin-left:78px}.topbar{height:76px}.breadcrumbs{display:none}.top-actions{width:100%;justify-content:space-between}.overview-grid,.lower-grid{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(4,1fr);margin-top:20px}.metric-card{padding:22px}.module-grid{gap:12px}.module-head h3{font-size:14px}.entity-grid{grid-template-columns:1fr 1fr}.settings-grid{grid-template-columns:1fr}.toast{left:calc(50% + 39px)}.hero{min-height:210px}.hero p{max-width:70%}.hero h2{font-size:29px}}
+@media(max-width:600px){.sidebar{inset:auto 0 0;width:100%;height:67px;padding:7px 9px;box-shadow:0 -3px 15px #173e3012;border-top:1px solid #41604c}.brand{display:none}nav{flex-direction:row;justify-content:space-around;height:100%;gap:2px}.nav-item{flex-direction:column;gap:4px;padding:6px 9px;border-radius:7px;flex:1}.nav-item>span{display:block;font-size:9px}.nav-item svg{height:19px;width:19px}.workspace{margin-left:0;margin-bottom:67px}.topbar{padding:0 18px;height:70px}.search-box input{width:170px;font-size:11px}kbd{display:none}.topbar .button{padding:10px 12px;font-size:11px}main{padding:25px 18px 35px}.page-heading{gap:12px;align-items:flex-start;margin-bottom:23px}.page-heading h1{font-size:25px}.page-heading .date-badge{display:none}.page-heading .button{padding:9px 11px}.subtitle{font-size:11px;max-width:280px}.eyebrow{font-size:9px}.hero{padding:24px;min-height:205px}.hero h2{font-size:27px}.hero p{max-width:85%;font-size:11px}.hero:after{right:-120px}.metrics{gap:12px}.metric-value{font-size:26px}.metric-label{font-size:10px}.metric-card{padding:21px}.module-grid{grid-template-columns:1fr;gap:12px;margin:20px 0}.module-card{padding:18px;position:relative;padding-left:71px}.module-icon{position:absolute;left:18px;top:20px;width:35px;height:35px}.module-head{margin-bottom:6px}.module-card p{font-size:11px}.module-stat{border:0;padding:0;margin-top:10px}.module-stat strong{font-size:16px}.module-head span{font-size:18px}.lower-grid{gap:18px}.panel{padding:20px}.entity-grid{grid-template-columns:1fr}.entity-card{min-height:180px;padding:21px}.toolbar{gap:8px}.tabs button{padding:8px 12px;font-size:11px}.toolbar select{font-size:11px;padding:9px}.toolbar .spacer{display:none}.detail-title{font-size:24px}.detail-layout>aside{display:block}.detail-layout>aside>.panel+.panel{margin-top:20px}.detail-fields{gap:20px 15px}.detail-field dd{font-size:12px}.task-date{font-size:10px}.task-title{font-size:12px}.detail-layout .page-heading{flex-direction:column}.dialog-header{padding:20px}.dialog-body{padding:20px}.dialog-actions{padding:15px 20px}.form-grid{grid-template-columns:1fr}.field.wide{grid-column:auto}.check-list{grid-column:auto}.quick-card{padding:15px;gap:8px}.quick-card strong{font-size:12px}.quick-card small{font-size:9px}.quick-grid{gap:9px}.toast{left:50%;bottom:80px;width:max-content;max-width:90vw}.backup-row{flex-wrap:wrap;gap:10px}.backup-row>div{flex-basis:100%}footer{margin:0 18px;font-size:8px}.settings-grid{gap:18px}.info-note{font-size:10px}.section-heading h2{font-size:16px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+</style>
+
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#overview"><span class="brand-mark">知</span><span>知行<small>个人工作台</small></span></a>
+    <div class="nav-label">我的空间</div>
+    <nav aria-label="主导航" id="navigation"></nav>
+    <div class="sidebar-bottom"><div class="local-indicator"><span></span> 记录保存在此浏览器</div><p>让研究有进展，让学习有回响。</p><button class="sidebar-button" data-action="privacy" id="privacy-button">隐藏家庭内容</button><a href="#settings" class="sidebar-button">数据与备份</a></div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar"><div class="breadcrumbs" id="breadcrumbs">我的工作台</div><div class="top-actions"><label class="search-box"><span aria-hidden="true">⌕</span><input type="search" id="search" aria-label="搜索当前页面" placeholder="搜索标题、笔记、知识点…"><kbd>/</kbd></label><button class="button primary" data-action="quick">＋ 快速记录</button></div></header>
+    <main id="main" tabindex="-1"><div class="loading">正在打开浏览器工作台…</div></main>
+    <footer>知行 WORKBENCH <span>科研 · 学习 · 成长</span></footer>
+  </div>
+  <dialog id="dialog"><div id="dialog-content"></div></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <input type="file" id="backup-input" hidden accept=".json,application/json">
+<script>
+'use strict';
+const $ = (selector) => document.querySelector(selector);
+const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const paths = {
+  home:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+  research:'<path d="M9 3h6m-5 0v7l-5 8a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-8V3M8 15h8"/><path d="M10 18h.01m3-1h.01"/>',
+  learning:'<path d="M12 5v16M3 4c4-1 6 0 9 2 3-2 5-3 9-2v15c-4-1-6 0-9 2-3-2-5-3-9-2Z"/>',
+  education:'<path d="M12 21V10m0 6C5 17 2 12 3 7c6-1 10 3 9 9Zm0-3c-1-6 3-10 9-9 1 6-3 10-9 9Z"/>',
+  task:'<rect x="4" y="3" width="16" height="18" rx="3"/><path d="m8 12 3 3 5-6"/>',
+  file:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8m-8 4h5"/>',
+  settings:'<path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3"/><circle cx="15" cy="17" r="3"/>',
+  ai:'<path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5ZM20 3v4m-2-2h4"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+};
+const icon = name => `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[name] || paths.file}</svg>`;
+const names = {project:'科研项目',learning:'学习条目',exam:'考试复盘',mistake:'代表错题',research:'科研',education:'家庭教育',overview:'总览',tasks:'全部任务',settings:'数据与备份'};
+const modules = {project:'research',learning:'learning',exam:'education',mistake:'education'};
+const moduleNames = {research:'科研',learning:'学习',education:'家庭教育'};
+const statusNames = {active:'进行中',done:'已完成',archived:'已归档',todo:'待开始',doing:'进行中'};
+const jobNames = {ready:'待交接',working:'处理中（人工）',review:'待审核',revision:'退回修改',approved:'已批准',archived:'已归档',cancelled:'已取消'};
+const resultNames = {independent:'独立做对',hint:'提示后做对',incorrect:'仍有困难'};
+let state, view='overview', selected=null, search='', eduTab='exam', statusFilter='active', subjectFilter='', hideFamily=(()=>{try{return localStorage.getItem('workbench-hide-family')==='1';}catch{return false;}})(), uploadTarget=null, busy=false;
+const entityById = id => state.entities.find(e=>e.id===id);
+const today = () => {const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
+const afterDays = n => {const d=new Date();d.setDate(d.getDate()+n);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
+const size = n => n<1024?`${n} B`:n<1048576?`${(n/1024).toFixed(1)} KB`:`${(n/1048576).toFixed(1)} MB`;
+const visibleEntity = e => !(hideFamily && modules[e.kind]==='education');
+const visibleTask = t => !(hideFamily && t.module==='education');
+const matches = e => !search || JSON.stringify(e).toLowerCase().includes(search.toLowerCase());
+const labelStatus = status => `<span class="tag ${status==='archived'?'gray':status==='done'?'blue':''}">${statusNames[status]||esc(status)}</span>`;
+const moduleTag = module => `<span class="tag ${module==='learning'?'gold':module==='education'?'blue':''}">${moduleNames[module]}</span>`;
+const formatTime = s => new Date(s).toLocaleString('zh-CN',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'});
+
+const STORAGE_KEY = 'zhixing-workbench-html-v1';
+function freshStore() {return {schema:1,entities:[],tasks:[],reviews:[]};}
+function readStore() {
+  let raw;
+  try {raw=localStorage.getItem(STORAGE_KEY);} catch {throw new Error('当前浏览器不允许保存数据。请用普通浏览模式，或将 HTML 放到您自己的静态网站中访问。');}
+  if(!raw)return freshStore();
+  try {return validateStore(JSON.parse(raw));} catch {throw new Error('浏览器中的记录格式异常，未覆盖原数据。请保留数据并从备份恢复。');}
+}
+function saveStore(store) {
+  validateStore(store);
+  try {localStorage.setItem(STORAGE_KEY,JSON.stringify(store));} catch {throw new Error('保存失败：浏览器存储已满或被禁用。请先导出记录，不要关闭尚未保存的表单。');}
+}
+function validateStore(store) {
+  const fail=()=>{throw new Error('备份格式或记录关联不正确，当前数据保持不变。');};
+  const dateOK=v=>v==null||v===''||typeof v==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(v)&&!Number.isNaN(Date.parse(v));
+  const textOK=v=>typeof v==='string'&&v.length<=30000;
+  const idOK=v=>typeof v==='string'&&/^[a-f0-9]{32}$/.test(v);
+  if(!store||store.schema!==1||!Array.isArray(store.entities)||!Array.isArray(store.tasks)||!Array.isArray(store.reviews))fail();
+  if(store.entities.length+store.tasks.length+store.reviews.length>20000)fail();
+  const ids=new Map();
+  for(const e of store.entities){
+    if(!e||!idOK(e.id)||ids.has(e.id)||!['project','learning','exam','mistake'].includes(e.kind)||!textOK(e.title)||!e.title.trim()||!['active','done','archived'].includes(e.status)||!e.details||typeof e.details!=='object'||Array.isArray(e.details)||!textOK(e.created)||!textOK(e.updated))fail();
+    for(const [key,value] of Object.entries(e.details)){
+      if(['score','full_score'].includes(key)){if(value!==null&&(typeof value!=='number'||!Number.isFinite(value)||value<0||value>10000))fail();}
+      else if(['due','exam_date','next_review'].includes(key)){if(!dateOK(value))fail();}
+      else if(key==='project_id'){if(value!=null&&!idOK(value))fail();}
+      else if(!textOK(value))fail();
+    }
+    if(e.kind==='exam'&&(!dateOK(e.details.exam_date)||!e.details.exam_date||!(e.details.full_score>0)||(e.details.score!=null&&e.details.score>e.details.full_score)))fail();
+    if(['exam','mistake'].includes(e.kind)&&!textOK(e.details.subject))fail();
+    ids.set(e.id,e);
+  }
+  for(const e of store.entities){
+    if(e.parent_id&&(e.kind!=='mistake'||ids.get(e.parent_id)?.kind!=='exam'))fail();
+    if(e.details.project_id&&(e.kind!=='learning'||ids.get(e.details.project_id)?.kind!=='project'))fail();
+  }
+  const tids=new Set();
+  for(const t of store.tasks){
+    if(!t||!idOK(t.id)||tids.has(t.id)||!textOK(t.title)||!t.title.trim()||!['research','learning','education'].includes(t.module)||!['todo','doing','done'].includes(t.status)||!['normal','high'].includes(t.priority)||!dateOK(t.due)||!textOK(t.notes)||!textOK(t.created))fail();
+    if(t.entity_id&&modules[ids.get(t.entity_id)?.kind]!==t.module)fail();
+    tids.add(t.id);
+  }
+  const rids=new Set();
+  for(const r of store.reviews){
+    if(!r||!idOK(r.id)||rids.has(r.id)||ids.get(r.entity_id)?.kind!=='mistake'||!['independent','hint','incorrect'].includes(r.result)||!textOK(r.note)||!textOK(r.reviewed)||!dateOK(r.next_review))fail();
+    rids.add(r.id);
+  }
+  return {schema:1,entities:store.entities,tasks:store.tasks,reviews:store.reviews};
+}
+function newId(){return crypto.randomUUID().replaceAll('-','');}
+async function api(path,options={}){
+  const store=readStore(),method=options.method||'GET',body=options.body;
+  if(path==='/state')return {...structuredClone(store),entities:[...store.entities].sort((a,b)=>b.updated.localeCompare(a.updated)),tasks:[...store.tasks].reverse(),reviews:[...store.reviews].reverse(),documents:[],jobs:[],backups:[],csrf:'browser-only',version:'HTML 1.0'};
+  const now=new Date().toISOString();let result;
+  if(path==='/entities'&&method==='POST'){
+    result={...body,id:newId(),created:now,updated:now};store.entities.push(result);
+  }else if(/^\/entities\/[a-f0-9]{32}$/.test(path)&&method==='PUT'){
+    const e=store.entities.find(e=>e.id===path.split('/')[2]);if(!e)throw new Error('记录不存在');if(e.kind!==body.kind)throw new Error('不能更改记录类型');Object.assign(e,body,{updated:now});result=e;
+  }else if(path==='/tasks'&&method==='POST'){
+    result={...body,id:newId(),created:now,completed:body.status==='done'?now:null};store.tasks.push(result);
+  }else if(/^\/tasks\/[a-f0-9]{32}$/.test(path)&&method==='PUT'){
+    const t=store.tasks.find(t=>t.id===path.split('/')[2]);if(!t)throw new Error('任务不存在');Object.assign(t,body,{completed:body.status==='done'?(t.completed||now):null});result=t;
+  }else if(/^\/entities\/[a-f0-9]{32}\/reviews$/.test(path)&&method==='POST'){
+    const e=store.entities.find(e=>e.id===path.split('/')[2]);if(e?.kind!=='mistake')throw new Error('只有错题可以记录再练');result={...body,id:newId(),entity_id:e.id,reviewed:now};store.reviews.push(result);e.details.next_review=body.next_review;e.updated=now;
+  }else throw new Error('单文件 HTML 版不提供此项后端功能。');
+  saveStore(store);return structuredClone(result);
+}
+
+async function reload(){state=await api('/state');render();}
+let toastTimer;
+function toast(message){$('#toast').textContent=message;$('#toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('visible'),4000);}
+function empty(title,description,action='',kind='task') {return `<div class="empty"><div class="empty-icon">${icon(kind)}</div><strong>${title}</strong>${description}${action}</div>`;}
+function heading(eyebrow,title,description,button='') {return `<div class="page-heading"><div><div class="eyebrow">${eyebrow}</div><h1>${title}</h1><p class="subtitle">${description}</p></div>${button}</div>`;}
+function actionButton(action,title,extra='',kind='primary'){return `<button class="button ${kind}" data-action="${action}" ${extra}>${title}</button>`;}
+function route(){const [page,id]=location.hash.slice(1).split('/');view=['overview','research','learning','education','tasks','settings'].includes(page)?page:'overview';selected=id||null;search='';$('#search').value='';statusFilter='active';if(hideFamily&&view==='education'){view='overview';selected=null;}render();window.scrollTo(0,0);}
+function render(){
+  if(!state)return;
+  const nav=[['overview','home','总览'],['research','research','科研'],['learning','learning','学习'],...(!hideFamily?[['education','education','家庭教育']]:[]),['tasks','task','全部任务'],['settings','settings','数据备份']];
+  $('#navigation').innerHTML=nav.map(([id,i,title])=>`<a href="#${id}" aria-label="${title}" title="${title}" class="nav-item ${view===id?'active':''}" ${view===id?'aria-current="page"':''}>${icon(i)}<span>${title}</span>${view===id?'<i class="nav-dot"></i>':''}</a>`).join('');
+  $('#privacy-button').textContent=hideFamily?'显示家庭内容':'隐藏家庭内容';
+  $('#breadcrumbs').textContent=`我的工作台 / ${view==='learning'?'个人学习':names[view]||'科研'}`;
+  const record=selected?entityById(selected):null;
+  let html=record&&visibleEntity(record)?renderDetail(record):view==='overview'?renderOverview():view==='tasks'?renderTasks():view==='settings'?renderSettings():renderModule();
+  if(hideFamily)html='<div class="privacy-banner">家庭内容已在当前页面隐藏。'+actionButton('privacy','恢复显示','','subtle')+'</div>'+html;
+  $('#main').innerHTML=html;
+}
+function renderOverview(){
+  const pending=state.tasks.filter(t=>visibleTask(t)&&t.status!=='done');
+  const overdue=pending.filter(t=>t.due&&t.due<today());
+  const dueToday=pending.filter(t=>t.due===today());
+  const thisWeek=pending.filter(t=>t.due&&t.due>=today()&&t.due<=afterDays(7));
+  const reviewCount=state.tasks.filter(t=>visibleTask(t)&&t.status==='done').length;
+  const focus=[...pending].filter(matches).sort((a,b)=>(a.due||'9999').localeCompare(b.due||'9999')||(a.priority==='high'?-1:1)).slice(0,6);
+  const recent=state.entities.filter(e=>visibleEntity(e)&&matches(e)&&e.status!=='archived').slice(0,4);
+  const courses=state.entities.filter(e=>e.status==='active');
+  return heading('A LITTLE PROGRESS, EVERY DAY','今天，从一件重要的事开始。','把科研、学习与孩子的成长，放在一个安静的空间里。',`<div class="date-badge">${new Date().toLocaleDateString('zh-CN',{month:'long',day:'numeric',weekday:'long'})}</div>`)+`
+  <div class="overview-grid"><section class="hero"><div class="eyebrow">留一点时间，给长期重要的事</div><h2>有所思，也有所行。</h2><p>${pending.length?`还有 ${pending.length} 项待推进的任务。选一个小步骤，给今天留下进展。`:'从一个项目、一条笔记，或一次共同复盘开始。记录保存在当前浏览器。'}</p>${actionButton('new-task','＋ 记下下一步')}</section><section class="metric-card"><div class="section-heading"><h2>近期节奏</h2>${icon('clock')}</div><div class="metrics"><div><div class="metric-value">${dueToday.length}</div><div class="metric-label">今日到期</div></div><div><div class="metric-value ${overdue.length?'alert':''}">${overdue.length}</div><div class="metric-label">已逾期</div></div><div><div class="metric-value">${thisWeek.length}</div><div class="metric-label">未来 7 天</div></div><div><div class="metric-value">${reviewCount}</div><div class="metric-label">累计完成任务</div></div></div></section></div>
+  <div class="module-grid"><a class="module-card" href="#research"><div class="module-icon">${icon('research')}</div><div class="module-head"><h3>科研 · 逐步推进</h3><span>↗</span></div><p>从下一节点，到可查证的成果。</p><div class="module-stat"><strong>${courses.filter(e=>e.kind==='project').length}</strong> 个进行中的项目</div></a><a class="module-card" href="#learning"><div class="module-icon gold">${icon('learning')}</div><div class="module-head"><h3>学习 · 有所积累</h3><span>↗</span></div><p>留下问题、理解与可以实践的下一步。</p><div class="module-stat"><strong>${courses.filter(e=>e.kind==='learning').length}</strong> 个正在学习的主题</div></a>${!hideFamily?`<a class="module-card" href="#education"><div class="module-icon blue">${icon('education')}</div><div class="module-head"><h3>成长 · 一起复盘</h3><span>↗</span></div><p>看见进步，也找到下一次练习的重点。</p><div class="module-stat"><strong>${courses.filter(e=>e.kind==='mistake'&&e.details.next_review&&e.details.next_review<=today()).length}</strong> 道到期再练的错题</div></a>`:''}</div>
+  <div class="lower-grid"><section class="panel"><div class="section-heading"><h2>接下来，做这些</h2><a class="button subtle" href="#tasks">查看全部 →</a></div>${focus.length?focus.map(taskRow).join(''):empty(search?'没有找到匹配的任务':'给今天留一个小目标',search?'换个关键词试试。':'任务只需填写标题，其他信息可以慢慢补。',actionButton('new-task','＋ 添加任务','','small'))}</section><section class="panel"><div class="section-heading"><h2>最近在关注</h2><span class="muted">持续积累</span></div>${recent.length?recent.map(e=>`<a class="recent-item" href="#${modules[e.kind]}/${e.id}"><span class="mini-icon">${icon(modules[e.kind])}</span><div><h3>${esc(e.title)}</h3><p>${names[e.kind]} · ${formatTime(e.updated)}</p></div></a>`).join(''):empty('这里会留下您的进展','新建的项目、学习笔记和复盘会显示在这里。','','learning')}</section></div>`;
+}
+function taskRow(t){return `<div class="task-row ${t.status==='done'?'completed':''}"><button class="task-check ${t.status==='done'?'done':''}" data-action="toggle-task" data-id="${t.id}" aria-label="${t.status==='done'?'重新打开':'完成'}任务：${esc(t.title)}">${t.status==='done'?'✓':''}</button><div class="task-body"><button class="task-title" data-action="edit-task" data-id="${t.id}">${esc(t.title)}</button><div class="task-meta">${moduleTag(t.module)}${t.milestone?'<span>◆ 里程碑</span>':''}${t.priority==='high'?'<span class="overdue">优先</span>':''}${t.entity_id?`<a href="#${t.module}/${t.entity_id}">${esc(entityById(t.entity_id)?.title||'')}</a>`:''}${t.status==='doing'?'<span>进行中</span>':''}</div></div><span class="task-date ${t.due&&t.due<today()&&t.status!=='done'?'overdue':''}">${t.due?esc(t.due===today()?'今天':t.due):'未设日期'}</span></div>`;}
+function renderTasks(){
+  const tasks=state.tasks.filter(t=>visibleTask(t)&&matches(t)&&(statusFilter==='all'||(statusFilter==='done'?t.status==='done':t.status!=='done'))).sort((a,b)=>(a.due||'9999').localeCompare(b.due||'9999'));
+  return heading('ONE STEP AT A TIME','把下一步写清楚。','科研、学习与家庭教育共用一份任务清单。',actionButton('new-task','＋ 添加任务'))+`<div class="toolbar"><div class="tabs">${[['active','待推进'],['done','已完成'],['all','全部']].map(([v,n])=>`<button class="${statusFilter===v?'active':''}" data-action="filter-status" data-value="${v}">${n}</button>`).join('')}</div><span class="muted">${tasks.length} 项</span></div><section class="panel">${tasks.length?tasks.map(taskRow).join(''):empty('当前没有任务','把一个大目标拆成今天能做的小步骤。',actionButton('new-task','＋ 添加任务','','small'))}</section>`;
+}
+function renderModule(){
+  const kind=view==='research'?'project':view==='learning'?'learning':eduTab;
+  const records=state.entities.filter(e=>e.kind===kind&&matches(e)&&(statusFilter==='all'||e.status===statusFilter)&&(!subjectFilter||view!=='education'||e.details.subject===subjectFilter));
+  const titles={research:['RESEARCH / 科研','每个节点，都有进展。','把项目目标、下一步和成果材料放在一起。'],learning:['LEARNING / 学习','读过，更要留下理解。','从一个问题出发，让笔记与研究相互连接。'],education:['GROWING TOGETHER / 家庭教育','先看见进步，再一起改进。','一次考试复盘，几道代表题，一次有反馈的再练。']};
+  const subjects=[...new Set(state.entities.filter(e=>modules[e.kind]==='education').map(e=>e.details.subject))];
+  return heading(...titles[view],actionButton('new-entity',`＋ ${kind==='exam'?'考试复盘':kind==='mistake'?'记录错题':kind==='project'?'新建项目':'新建学习'}`,`data-kind="${kind}"`))+`
+    <div class="toolbar">${view==='education'?`<div class="tabs"><button class="${eduTab==='exam'?'active':''}" data-action="education-tab" data-value="exam">考试复盘</button><button class="${eduTab==='mistake'?'active':''}" data-action="education-tab" data-value="mistake">错题与再练</button></div>`:''}<select id="status-filter" aria-label="状态筛选">${[['active','进行中'],['done','已完成'],['archived','已归档'],['all','全部状态']].map(([v,n])=>`<option value="${v}" ${statusFilter===v?'selected':''}>${n}</option>`).join('')}</select>${view==='education'?`<select id="subject-filter" aria-label="学科筛选"><option value="">全部学科</option>${subjects.map(s=>`<option ${subjectFilter===s?'selected':''}>${esc(s)}</option>`).join('')}</select>`:''}<span class="muted">${records.length} 条记录</span></div>
+    ${view==='education'?'<div class="info-note">这是家长与孩子共同复盘的空间。不同考试的分数不直接代表能力变化；优先听孩子自己的分析。</div>':''}
+    ${records.length?`<div class="entity-grid">${records.map(entityCard).join('')}</div>`:`<section class="panel">${empty(search?'没有匹配的记录':`还没有${names[kind]}`,search?'试试其他关键词或状态。':{project:'先记录一个正在推进的项目，写清目标和最近的节点。',learning:'一篇文献、一个技能，或者一个想弄懂的问题。',exam:'从最近一次考试开始，先记录做得好的地方。',mistake:'只选值得再练的代表题，可以先上传图片，稍后补充分析。'}[kind],actionButton('new-entity',`＋ 添加${names[kind]}`,`data-kind="${kind}"`,'small'),modules[kind])}</section>`}`;
+}
+function entityCard(e){
+  const d=e.details,tasks=state.tasks.filter(t=>t.entity_id===e.id),done=tasks.filter(t=>t.status==='done').length;
+  const summary=e.kind==='project'?d.goal:e.kind==='learning'?d.notes||d.goal:e.kind==='exam'?d.progress||d.reflection:d.child_analysis||d.question;
+  const meta=e.kind==='project'?d.stage:e.kind==='learning'?d.topic||'自主学习':d.subject;
+  return `<a class="entity-card" href="#${modules[e.kind]}/${e.id}"><div class="entity-card-top"><span class="tag ${e.kind==='learning'?'gold':modules[e.kind]==='education'?'blue':''}">${esc(meta||names[e.kind])}</span>${labelStatus(e.status)}</div><h3>${esc(e.title)}</h3>${e.kind==='exam'?`<div class="score-number">${d.score??'—'}<small>/ ${d.full_score}</small></div>`:''}<p>${esc(summary||'尚未填写内容，打开后继续补充。')}</p><div class="card-footer"><span>${e.kind==='project'?`${tasks.length} 项任务 · ${done} 项完成`:e.kind==='learning'?(d.due?`目标 ${d.due}`:'按自己的节奏推进'):e.kind==='exam'?`${d.exam_date} · ${esc(d.exam_type)}`:(d.next_review?`${d.next_review<=today()?'待再练':'下次再练'} ${d.next_review}`:'尚未安排再练')}</span><span>查看 →</span></div></a>`;
+}
+const fieldLabels={goal:'目标',acceptance:'验收指标与交付物',stage:'当前阶段',due:'目标日期',notes:'笔记与记录',topic:'主题',source:'来源 / 文献链接',project_id:'关联科研项目',exam_date:'考试日期',subject:'学科',score:'成绩',full_score:'满分',scope:'考试范围',exam_type:'考试类型',progress:'这次有哪些进步',reflection:'孩子自己的复盘',next_step:'下一周的一两个重点',question:'原题文字（可只上传图片）',original_answer:'孩子原始作答',correct_answer:'正确答案 / 解题思路',knowledge:'知识点',child_analysis:'孩子自己的错因分析',parent_note:'家长补充',next_review:'下次再练日期'};
+function renderDetailBase(e){
+  const d=e.details,tasks=state.tasks.filter(t=>t.entity_id===e.id),docs=state.documents.filter(f=>f.entity_ids.includes(e.id)),jobs=state.jobs.filter(j=>j.entity_id===e.id),reviews=state.reviews.filter(r=>r.entity_id===e.id);
+  const fields=Object.entries(d).filter(([k])=>!['score','full_score'].includes(k)).map(([k,v])=>`<div class="detail-field ${['goal','acceptance','notes','source','scope','progress','reflection','next_step','question','original_answer','correct_answer','knowledge','child_analysis','parent_note'].includes(k)?'wide':''}"><dt>${fieldLabels[k]||esc(k)}</dt><dd>${k==='project_id'&&v?`<a href="#research/${esc(v)}">${esc(entityById(v)?.title||'')}</a>`:esc(v||'尚未填写')}</dd></div>`).join('');
+  return `<a class="back-link" href="#${modules[e.kind]}">← 返回${moduleNames[modules[e.kind]]}</a><div class="page-heading"><div><div class="eyebrow">${names[e.kind]} / ${statusNames[e.status]}</div><h1 class="detail-title">${esc(e.title)}</h1><p class="subtitle">更新于 ${formatTime(e.updated)}${e.parent_id?` · <a href="#education/${e.parent_id}">查看所属考试 →</a>`:''}</p></div><div class="inline-actions">${actionButton('edit-entity','编辑',`data-id="${e.id}"`,'')}${actionButton('archive-entity',e.status==='archived'?'恢复到进行中':'归档',`data-id="${e.id}"`,'subtle')}</div></div>
+  <div class="detail-layout"><div><section class="panel"><div class="section-heading"><h2>${e.kind==='exam'?'一起回顾':e.kind==='mistake'?'理解这道题':e.kind==='learning'?'问题与理解':'目标与成果'}</h2>${labelStatus(e.status)}</div>${e.kind==='exam'?`<div class="score-number">${d.score??'—'}<small>/ ${d.full_score}</small></div><p class="info-note">记录考试背景，避免把不同范围或难度的分数直接比较。</p>`:''}<dl class="detail-fields">${fields}</dl></section>
+  <section class="panel"><div class="section-heading"><h2>${e.kind==='project'?'下一步与里程碑':'下一步行动'}</h2>${actionButton('new-task','＋ 添加',`data-entity="${e.id}"`,'subtle')}</div>${tasks.length?tasks.map(taskRow).join(''):empty('把目标拆成具体行动','给下一步设置一个可以做到的时间。')}</section>
+  ${e.kind==='exam'?`<section class="panel"><div class="section-heading"><h2>这次的代表错题</h2>${actionButton('new-entity','＋ 记录错题',`data-kind="mistake" data-parent="${e.id}"`,'subtle')}</div>${state.entities.filter(m=>m.parent_id===e.id&&m.status!=='archived').map(m=>`<a class="recent-item" href="#education/${m.id}">${icon('education')}<div><h3>${esc(m.title)}</h3><p>${esc(m.details.knowledge||'知识点待补充')}</p></div></a>`).join('')||empty('少量精选，反复练习','选出最值得再做的几道题。')}</section>`:''}
+  ${e.kind==='mistake'?`<section class="panel"><div class="section-heading"><h2>再练与反馈</h2>${actionButton('new-review','＋ 记录再练',`data-id="${e.id}"`,'subtle')}</div>${reviews.length?reviews.map(r=>`<div class="review-item"><span class="tag ${r.result==='incorrect'?'red':r.result==='hint'?'gold':''}">${resultNames[r.result]}</span><p>${esc(r.note||'未添加说明')}</p><small>${formatTime(r.reviewed)}${r.next_review?` · 下次 ${r.next_review}`:''}</small></div>`).join(''):empty('一次再练，比一次勾选更有用','记录能否独立做对，以及下次准备如何练习。')}</section>`:''}</div>
+  <aside></aside></div>`;
+}
+function openDialog(title,body,footer=''){const dialog=$('#dialog');$('#dialog-content').innerHTML=`<div class="dialog-header"><h2>${title}</h2><button class="close" data-action="close" aria-label="关闭">×</button></div>${body}${footer}`;if(!dialog.open)dialog.showModal();}
+function closeDialog(){if(!busy)$('#dialog').close();}
+function formDialog(title,formType,body,attrs='',save='保存记录'){openDialog(title,`<form id="editor" data-form="${formType}" ${attrs}><div class="dialog-body"><div class="form-grid">${body}</div><div class="form-error" id="form-error" role="alert"></div></div><div class="dialog-actions">${actionButton('close','取消','','')}<button class="button primary" type="submit">${save}</button></div></form>`);$('#editor button[data-action=close]').type='button';}
+function field(name,label,value='',type='text',options={}){let control='';if(type==='select')control=`<select name="${name}" ${options.required?'required':''}>${options.items.map(([v,n])=>`<option value="${esc(v)}" ${String(value??'')===String(v)?'selected':''}>${esc(n)}</option>`).join('')}</select>`;else if(type==='textarea')control=`<textarea name="${name}" ${options.required?'required':''} maxlength="30000" class="${options.long?'long':''}" placeholder="${esc(options.placeholder||'')}">${esc(value)}</textarea>`;else control=`<input name="${name}" type="${type}" value="${esc(value)}" ${options.required?'required':''} ${type==='number'?'min="0" max="10000" step="0.01"':''} ${type==='text'?'maxlength="200"':''} placeholder="${esc(options.placeholder||'')}">`;return `<label class="field ${options.wide?'wide':''}"><span>${label}${options.required?' *':''}</span>${control}${options.help?`<span class="help">${options.help}</span>`:''}</label>`;}
+const subjectItems=['语文','数学','英语','物理','化学','生物','历史','地理','政治','综合'].map(s=>[s,s]);
+function entityForm(kind,id=null,parentId=null){
+  const e=id?entityById(id):null,d=e?.details||{},parent=parentId?entityById(parentId):null;
+  let body=field('title',kind==='mistake'?'给这道题一个好找的标题':'标题',e?.title||'','text',{wide:true,required:true,placeholder:{project:'例如：项目名称',learning:'例如：想弄懂的一个问题',exam:'例如：高二上学期数学月考',mistake:'例如：函数单调性中的分类讨论'}[kind]});
+  const f=(key,type='text',options={})=>field(key,fieldLabels[key],d[key]??'',type,options);
+  if(kind==='project')body+=f('stage','select',{items:['准备','立项','实施','整理成果','结题'].map(s=>[s,s])})+f('due','date')+f('goal','textarea',{wide:true,placeholder:'希望解决什么问题？'})+f('acceptance','textarea',{wide:true,placeholder:'什么成果可以说明这一阶段已经完成？'})+f('notes','textarea',{wide:true});
+  if(kind==='learning')body+=f('topic')+f('due','date')+f('project_id','select',{wide:true,items:[['','暂不关联'],...state.entities.filter(e=>e.kind==='project').map(e=>[e.id,e.title])]})+f('goal','textarea',{wide:true,placeholder:'想回答的问题，或希望学会的技能'})+f('source','textarea',{wide:true,placeholder:'文献标题、链接、页码等'})+f('notes','textarea',{wide:true,long:true,placeholder:'用自己的话记下理解、疑问和下一步实践。'});
+  if(kind==='exam')body+=field('exam_date','考试日期',d.exam_date||today(),'date',{required:true})+field('subject','学科',d.subject||'数学','select',{items:subjectItems,required:true})+field('score','成绩（可暂不填）',d.score??'','number')+field('full_score','满分',d.full_score??100,'number',{required:true})+field('exam_type','考试类型',d.exam_type||'阶段测验','select',{items:['阶段测验','月考','期中考试','期末考试','模拟考试','其他'].map(s=>[s,s])})+f('scope')+f('progress','textarea',{wide:true,placeholder:'先记录这一次做得好的地方。'})+f('reflection','textarea',{wide:true,placeholder:'尽量保留孩子自己的表达。'})+f('next_step','textarea',{wide:true,placeholder:'只选一两个能做到的小目标。'});
+  if(kind==='mistake')body+=field('subject','学科',d.subject||parent?.details.subject||'数学','select',{items:subjectItems,required:true})+f('next_review','date')+field('parent_id','所属考试',e?.parent_id||parentId||'','select',{wide:true,items:[['','单独记录'],...state.entities.filter(e=>e.kind==='exam').map(e=>[e.id,e.title])]})+f('knowledge','textarea',{wide:true})+f('question','textarea',{wide:true,placeholder:'可以先留空，保存后导入原题图片。'})+f('original_answer','textarea',{wide:true})+f('correct_answer','textarea',{wide:true})+f('child_analysis','textarea',{wide:true,placeholder:'孩子认为自己卡在哪里？'})+f('parent_note','textarea',{wide:true});
+  body+=field('status','状态',e?.status||'active','select',{items:[['active','进行中'],['done','已完成'],['archived','已归档']],wide:true});
+  formDialog(`${id?'编辑':'新建'}${names[kind]}`,'entity',body,`data-kind="${kind}" data-id="${id||''}"`);
+}
+function taskForm(id=null,entityId=null){const t=id?state.tasks.find(t=>t.id===id):{},e=entityId?entityById(entityId):null,module=t.module||modules[e?.kind]||(['research','learning','education'].includes(view)?view:'research');const entities=state.entities.filter(e=>modules[e.kind]===module);formDialog(id?'编辑任务':'记下下一步','task',field('title','准备做什么',t.title||'','text',{required:true,wide:true,placeholder:'写成一个明确、可以开始的行动'})+field('module','所属模块',module,'select',{items:Object.entries(moduleNames).filter(([m])=>!(hideFamily&&m==='education'))})+field('due','截止日期',t.due||'','date')+field('entity_id','关联事项',t.entity_id||entityId||'','select',{wide:true,items:[['','暂不关联'],...entities.map(e=>[e.id,e.title])]})+field('priority','优先级',t.priority||'normal','select',{items:[['normal','普通'],['high','优先']]})+field('status','状态',t.status||'todo','select',{items:[['todo','待开始'],['doing','进行中'],['done','已完成']]})+field('notes','备注 / 完成依据',t.notes||'','textarea',{wide:true})+`<label class="check-field"><input type="checkbox" name="milestone" ${t.milestone?'checked':''}>这是一个里程碑</label>`,`data-id="${id||''}"`);}
+function quickDialog(){const choices=[['new-task','task','下一步任务','先记录，再慢慢整理。',''],['new-entity','research','科研项目','目标、节点和成果。','project'],['new-entity','learning','学习与笔记','把理解留下来。','learning'],...(!hideFamily?[['new-entity','education','考试复盘','先看到这次的进步。','exam'],['new-entity','education','代表错题','精选几题，安排再练。','mistake']]:[])];openDialog('从一条记录开始',`<div class="dialog-body"><div class="quick-grid">${choices.map(([a,i,t,d,k])=>`<button class="quick-card" data-action="${a}" data-kind="${k}">${icon(i)}<span><strong>${t}</strong><small>${d}</small></span></button>`).join('')}</div></div>`);}
+function reviewForm(id){formDialog('这一次，再练得怎么样？','review',field('result','再练结果','independent','select',{items:Object.entries(resultNames),wide:true})+field('note','孩子的反馈 / 仍然卡住的地方','','textarea',{wide:true})+field('next_review','下次再练日期',afterDays(7),'date',{wide:true,help:'可以按掌握情况调整；留空表示暂不安排。'}),`data-id="${id}"`,'保存再练记录');}
+document.addEventListener('click',async event=>{
+  const button=event.target.closest('[data-action]');if(!button||busy)return;
+  const {action,id,entity:entityId,kind,value,status,name,parent}=button.dataset;
+  try {
+    if(action==='close')return closeDialog();
+    if(action==='quick')return quickDialog();
+    if(action==='new-entity')return entityForm(kind,null,parent);
+    if(action==='edit-entity')return entityForm(entityById(id).kind,id);
+    if(action==='new-task')return taskForm(null,entityId);
+    if(action==='edit-task')return taskForm(id);
+    if(action==='new-review')return reviewForm(id);
+    if(action==='filter-status'){statusFilter=value;return render();}
+    if(action==='education-tab'){eduTab=value;return render();}
+    if(action==='privacy'){hideFamily=!hideFamily;localStorage.setItem('workbench-hide-family',hideFamily?'1':'0');if(hideFamily&&view==='education'){location.hash='#overview';}render();return;}
+    busy=true;button.disabled=true;
+    if(action==='toggle-task'){const t=state.tasks.find(t=>t.id===id);await api(`/tasks/${id}`,{method:'PUT',body:taskPayload(t,t.status==='done'?'todo':'done')});await reload();toast(t.status==='done'?'任务已重新打开':'已完成，进展已记录');}
+    if(action==='archive-entity'){const e=entityById(id);await api(`/entities/${id}`,{method:'PUT',body:{kind:e.kind,title:e.title,status:e.status==='archived'?'active':'archived',parent_id:e.parent_id,details:e.details}});await reload();toast(e.status==='archived'?'记录已恢复':'已归档，可在“已归档”中恢复');}
+  } catch(error){toast(error.message);}finally{busy=false;button.disabled=false;}
+});
+function taskPayload(t,status=t.status){return {title:t.title,module:t.module,entity_id:t.entity_id||null,due:t.due||null,status,priority:t.priority,milestone:Boolean(t.milestone),notes:t.notes||''};}
+document.addEventListener('submit',async event=>{
+  if(event.target.id!=='editor')return;event.preventDefault();if(busy)return;
+  const form=event.target,formType=form.dataset.form,id=form.dataset.id,f=new FormData(form),data=Object.fromEntries(f.entries());
+  const submit=form.querySelector('[type=submit]');busy=true;submit.disabled=true;$('#form-error').textContent='';
+  try {
+    let message='已保存',nextEntity=null,jobId=null;
+    if(formType==='entity'){
+      const kind=form.dataset.kind;const {title,status,parent_id,...details}=data;
+      for(const key of ['due','next_review','project_id'])if(key in details)details[key]=details[key]||null;
+      if(kind==='exam'){details.score=details.score===''?null:Number(details.score);details.full_score=Number(details.full_score);}
+      const result=await api(id?`/entities/${id}`:'/entities',{method:id?'PUT':'POST',body:{kind,title,status,parent_id:parent_id||null,details}});nextEntity={id:result.id,module:modules[kind]};
+    }
+    if(formType==='task'){await api(id?`/tasks/${id}`:'/tasks',{method:id?'PUT':'POST',body:{...data,entity_id:data.entity_id||null,due:data.due||null,milestone:f.has('milestone')}});}
+    if(formType==='review'){await api(`/entities/${id}/reviews`,{method:'POST',body:{...data,next_review:data.next_review||null}});message='再练结果已记录';}
+    $('#dialog').close();await reload();if(nextEntity)location.hash=`#${nextEntity.module}/${nextEntity.id}`;toast(message);
+  }catch(error){const box=$('#form-error');if(box)box.textContent=error.message;else toast(error.message);}finally{busy=false;submit.disabled=false;}
+});
+document.addEventListener('change',event=>{
+  if(event.target.id==='status-filter'){statusFilter=event.target.value;render();}
+  if(event.target.id==='subject-filter'){subjectFilter=event.target.value;render();}
+  if(event.target.name==='module'&&event.target.closest('[data-form=task]')){const select=event.target.form.elements.entity_id;select.innerHTML='<option value="">暂不关联</option>'+state.entities.filter(e=>modules[e.kind]===event.target.value).map(e=>`<option value="${e.id}">${esc(e.title)}</option>`).join('');}
+});
+$('#search').addEventListener('input',event=>{search=event.target.value;render();});
+window.addEventListener('hashchange',route);
+document.addEventListener('keydown',event=>{if(event.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(event.target.tagName)&&!$('#dialog').open){event.preventDefault();$('#search').focus();}});
+$('#dialog').addEventListener('cancel',event=>{if(busy)event.preventDefault();});
+function renderDetail(e){
+  const html=renderDetailBase(e);
+  const parentLink=e.kind==='project'?state.entities.filter(x=>x.kind==='learning'&&x.details.project_id===e.id&&x.status!=='archived'):[];
+  const linked=parentLink.length?`<section class="panel"><div class="section-heading"><h2>关联学习</h2></div>${parentLink.map(x=>`<a class="recent-item" href="#learning/${x.id}">${icon('learning')}<div><h3>${esc(x.title)}</h3><p>${esc(x.details.topic||'学习笔记')}</p></div></a>`).join('')}</section>`:'';
+  return html.replace(/<aside>[\s\S]*<\/aside>/,`<aside>${linked}<section class="panel"><div class="section-heading"><h2>随手记，也记得备份</h2>${icon('file')}</div><p class="subtitle">记录保存在此浏览器，不会自动同步到其他设备。建议定期导出，尤其是在清理浏览器或更换电脑前。</p><div class="info-note">单文件版保留项目、学习、考试、错题和任务。附件库与 AI 文件交接请使用原来的本地服务版。</div>${actionButton('export-browser','导出全部记录','','small')}<a class="button subtle" href="#settings">数据管理 →</a></section></aside>`);
+}
+function renderSettings(){return heading('BROWSER EDITION / 单文件网页版','您的记录，留在这个浏览器。','无需安装 Python 或启动本地服务；打开 HTML 即可使用。')+`<div class="settings-grid"><section class="panel"><div class="section-heading"><h2>保存与导出</h2>${icon('file')}</div><p>科研、学习、考试、错题、任务和再练反馈会自动保存在当前浏览器的 localStorage。当前共有 ${state.entities.length} 条业务记录、${state.tasks.length} 项任务、${state.reviews.length} 次再练。</p><div class="inline-actions">${actionButton('export-browser','下载 JSON 备份')}${actionButton('import-browser','从 JSON 备份恢复','','')}</div><div class="info-note">隐私浏览、清除网站数据、更换浏览器或更换网站地址，都可能使记录不可用。请把备份保存在您自己选择的位置。</div></section><section class="panel"><div class="section-heading"><h2>使用与发布</h2>${icon('settings')}</div><p>这是一份独立 HTML 文件，样式和程序都已内嵌，没有外部字体、接口或 CDN。可直接打开，也可放在您自己的 HTTPS 静态网站中。</p><p>发布网页只发布程序，浏览器中的记录不会随文件一起上传。不同浏览器、不同设备的数据互相独立；没有登录、云同步和权限隔离。</p>${actionButton('privacy',hideFamily?'显示家庭内容':'演示时隐藏家庭内容','','small')}<p>隐藏家庭内容仅影响界面。导出的备份仍包含全部记录，请妥善保管。</p></section><section class="panel full"><div class="section-heading"><h2>网页版范围</h2></div><p>支持科研项目与里程碑、个人学习与项目关联、考试复盘、错题再练、统一任务、搜索及归档恢复。附件上传、AI 任务包、自动提醒、OCR 和多设备同步未包含在单文件版中。不要把 JSON 备份上传到公开网页。</p></section></div>`;}
+function downloadJSON(store,prefix='知行工作台备份'){
+  const blob=new Blob([JSON.stringify({...store,exported_at:new Date().toISOString()},null,2)],{type:'application/json;charset=utf-8'});
+  const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`${prefix}-${new Date().toISOString().replace(/[:.]/g,'-')}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);
+}
+let pendingImport=null;
+document.addEventListener('click',async event=>{
+  const button=event.target.closest('[data-action]');if(!button)return;
+  try{
+    if(button.dataset.action==='export-browser'){downloadJSON(readStore());toast('已请求下载备份，请确认浏览器已保存文件。');}
+    if(button.dataset.action==='import-browser'){$('#backup-input').value='';$('#backup-input').click();}
+    if(button.dataset.action==='download-before-import'){downloadJSON(readStore(),'恢复前备份');$('#import-check').disabled=false;toast('请确认恢复前备份已下载，再勾选继续。');}
+  }catch(error){toast(error.message);}
+});
+$('#backup-input').addEventListener('change',async event=>{
+  const file=event.target.files[0];if(!file)return;
+  try{
+    if(file.size>5*1024*1024)throw new Error('备份超过 5 MB，不能在这个轻量版本中导入。');
+    pendingImport=validateStore(JSON.parse(await file.text()));
+    openDialog('恢复浏览器记录',`<form id="import-form"><div class="dialog-body"><p class="subtitle">将恢复 ${pendingImport.entities.length} 条记录、${pendingImport.tasks.length} 项任务和 ${pendingImport.reviews.length} 次再练。此操作会替换当前记录。</p><div class="info-note">先下载并保留当前记录，确认文件已保存后再继续。如果取消，原有数据不会变化。</div><button type="button" class="button" data-action="download-before-import">先下载当前记录</button><label class="check-field"><input type="checkbox" id="import-check" disabled required>我已确认当前记录的备份文件下载成功</label>${field('confirmation','请输入“恢复记录”','','text',{required:true})}<div class="form-error" id="import-error" role="alert"></div></div><div class="dialog-actions"><button type="button" class="button" data-action="close">取消</button><button type="submit" class="button primary">恢复记录</button></div></form>`);
+  }catch(error){toast(error.message);pendingImport=null;}
+});
+document.addEventListener('submit',async event=>{
+  if(event.target.id!=='import-form')return;event.preventDefault();
+  try{
+    if(!pendingImport||!$('#import-check').checked||new FormData(event.target).get('confirmation')!=='恢复记录')throw new Error('请下载备份、勾选确认，并准确输入“恢复记录”。');
+    saveStore(pendingImport);pendingImport=null;$('#dialog').close();selected=null;await reload();location.hash='#settings';toast('记录已恢复。');
+  }catch(error){$('#import-error').textContent=error.message;}
+});
+
+api('/state').then(result=>{state=result;route();}).catch(error=>{$('#main').innerHTML=`<div class="error-box"><h2>暂时无法打开浏览器存储</h2><p>${esc(error.message)}</p><p>请使用普通浏览模式，允许此页面存储数据，再刷新重试。</p></div>`;});
+
+</script>
+</body>
+</html>
 
