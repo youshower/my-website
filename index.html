@@ -17,6 +17,11 @@
 @media(max-width:600px){.sidebar{inset:auto 0 0;width:100%;height:67px;padding:7px 9px;box-shadow:0 -3px 15px #173e3012;border-top:1px solid #41604c}.brand{display:none}nav{flex-direction:row;justify-content:space-around;height:100%;gap:2px}.nav-item{flex-direction:column;gap:4px;padding:6px 9px;border-radius:7px;flex:1}.nav-item>span{display:block;font-size:9px}.nav-item svg{height:19px;width:19px}.workspace{margin-left:0;margin-bottom:67px}.topbar{padding:0 18px;height:70px}.search-box input{width:170px;font-size:11px}kbd{display:none}.topbar .button{padding:10px 12px;font-size:11px}main{padding:25px 18px 35px}.page-heading{gap:12px;align-items:flex-start;margin-bottom:23px}.page-heading h1{font-size:25px}.page-heading .date-badge{display:none}.page-heading .button{padding:9px 11px}.subtitle{font-size:11px;max-width:280px}.eyebrow{font-size:9px}.hero{padding:24px;min-height:205px}.hero h2{font-size:27px}.hero p{max-width:85%;font-size:11px}.hero:after{right:-120px}.metrics{gap:12px}.metric-value{font-size:26px}.metric-label{font-size:10px}.metric-card{padding:21px}.module-grid{grid-template-columns:1fr;gap:12px;margin:20px 0}.module-card{padding:18px;position:relative;padding-left:71px}.module-icon{position:absolute;left:18px;top:20px;width:35px;height:35px}.module-head{margin-bottom:6px}.module-card p{font-size:11px}.module-stat{border:0;padding:0;margin-top:10px}.module-stat strong{font-size:16px}.module-head span{font-size:18px}.lower-grid{gap:18px}.panel{padding:20px}.entity-grid{grid-template-columns:1fr}.entity-card{min-height:180px;padding:21px}.toolbar{gap:8px}.tabs button{padding:8px 12px;font-size:11px}.toolbar select{font-size:11px;padding:9px}.toolbar .spacer{display:none}.detail-title{font-size:24px}.detail-layout>aside{display:block}.detail-layout>aside>.panel+.panel{margin-top:20px}.detail-fields{gap:20px 15px}.detail-field dd{font-size:12px}.task-date{font-size:10px}.task-title{font-size:12px}.detail-layout .page-heading{flex-direction:column}.dialog-header{padding:20px}.dialog-body{padding:20px}.dialog-actions{padding:15px 20px}.form-grid{grid-template-columns:1fr}.field.wide{grid-column:auto}.check-list{grid-column:auto}.quick-card{padding:15px;gap:8px}.quick-card strong{font-size:12px}.quick-card small{font-size:9px}.quick-grid{gap:9px}.toast{left:50%;bottom:80px;width:max-content;max-width:90vw}.backup-row{flex-wrap:wrap;gap:10px}.backup-row>div{flex-basis:100%}footer{margin:0 18px;font-size:8px}.settings-grid{gap:18px}.info-note{font-size:10px}.section-heading h2{font-size:16px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 
+.summary-link{display:block;border-radius:9px;padding:8px;margin:-8px;transition:background .15s}.summary-link:hover{background:#eff4e8}.summary-link:focus-visible{outline:3px solid #9cb8a8;outline-offset:3px}.recent-filter{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:11px}.recent-toolbar .tabs{flex-wrap:wrap}.recent-toolbar .tabs button{padding:9px 13px}.recent-row{padding:20px 0;border-bottom:1px solid #edf0e9}.recent-row:first-child{padding-top:0}.recent-row:last-child{border-bottom:0;padding-bottom:0}.recent-row-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:9px}.recent-title{padding:0;text-align:left;font-size:14px;line-height:1.8;overflow-wrap:anywhere}.recent-title:hover{color:var(--green)}.recent-closed .recent-title{color:#8b9588}.recent-times{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:11px;color:#778671;line-height:1.8;margin-top:13px}.recent-times span{overflow-wrap:anywhere}.follow-due{color:#9a7b32}.recent-note{font-size:11px;color:var(--muted);line-height:1.8;margin-top:8px;overflow-wrap:anywhere}.recent-row-actions{display:flex;flex-wrap:wrap;gap:10px;margin:9px -7px -7px}.recent-row-actions .button{font-size:11px}.recent-specific{margin:0;padding:18px;background:#f5f7f1;border:1px solid #e5ebdd;border-radius:10px}.recent-detail-actions{flex-wrap:wrap;justify-content:flex-start}.recent-specific:empty{display:none}[hidden]{display:none!important}
+@media(max-width:850px) and (min-width:601px){.nav-item{position:relative}.nav-item:hover:after{content:attr(aria-label);position:absolute;left:64px;top:10px;background:#183d34;color:white;border-radius:5px;padding:8px 12px;font-size:11px;white-space:nowrap;z-index:20}}
+@media(max-width:600px){nav{overflow-x:auto;justify-content:flex-start}.nav-item{flex:1 0 45px;padding:6px 4px;min-width:0}.nav-item>span{font-size:8px;white-space:nowrap}.range-tabs{width:100%}.recent-toolbar .tabs button{padding:8px 9px;font-size:10px}.recent-row-head{gap:8px}.recent-title{font-size:13px}.recent-times{gap:6px 12px}.recent-detail-actions .button{padding:9px 12px}.task-status-tabs{flex-wrap:wrap}.task-status-tabs button{padding:8px 11px}.recent-specific{padding:14px}.recent-filter{gap:6px}}
+.recent-specific{display:grid}
+
 </style>
 
 </head>
@@ -59,34 +64,119 @@ const jobNames = {ready:'待交接',working:'处理中（人工）',review:'待�
 const resultNames = {independent:'独立做对',hint:'提示后做对',incorrect:'仍有困难'};
 let state, view='overview', selected=null, search='', eduTab='exam', statusFilter='active', subjectFilter='', hideFamily=(()=>{try{return localStorage.getItem('workbench-hide-family')==='1';}catch{return false;}})(), uploadTarget=null, busy=false;
 const entityById = id => state.entities.find(e=>e.id===id);
-const today = () => {const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
-const afterDays = n => {const d=new Date();d.setDate(d.getDate()+n);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
+const today=()=>bjDate();
+const afterDays=n=>plusDays(bjDate(),n);
 const size = n => n<1024?`${n} B`:n<1048576?`${(n/1024).toFixed(1)} KB`:`${(n/1048576).toFixed(1)} MB`;
 const visibleEntity = e => !(hideFamily && modules[e.kind]==='education');
-const visibleTask = t => !(hideFamily && t.module==='education');
+const visibleTask=t=>!(hideFamily&&isFamilyTask(t,state.entities));
 const matches = e => !search || JSON.stringify(e).toLowerCase().includes(search.toLowerCase());
 const labelStatus = status => `<span class="tag ${status==='archived'?'gray':status==='done'?'blue':''}">${statusNames[status]||esc(status)}</span>`;
 const moduleTag = module => `<span class="tag ${module==='learning'?'gold':module==='education'?'blue':''}">${moduleNames[module]}</span>`;
-const formatTime = s => new Date(s).toLocaleString('zh-CN',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'});
+const formatTime = s => new Date(s).toLocaleString('zh-CN',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit',timeZone:'Asia/Shanghai'});
 
-const STORAGE_KEY = 'zhixing-workbench-html-v1';
-function freshStore() {return {schema:1,entities:[],tasks:[],reviews:[]};}
+// Pure data and Beijing-time helpers, shared by the UI and acceptance tests.
+const CATEGORY_NAMES={task:'普通任务',travel:'行程',meeting:'会议',watch:'关注事项',submission:'提交资料',errand:'办理事项',waiting:'等待反馈',appointment:'预约与活动'};
+const RECENT_STATUSES={todo:'待开始',doing:'进行中',waiting:'等待反馈',done:'已完成',cancelled:'已取消',archived:'已归档'};
+const EVENT_CATEGORIES=['travel','meeting','appointment'];
+const TASK_DATE_FIELDS=['due','start_date','end_date','follow_up_date','sent_date'];
+const TASK_TIME_FIELDS=['due_time','start_time','end_time'];
+const TASK_TEXT_FIELDS=['location','contact','source','travel_notes','after_notes','submission_channel','receipt','waiting_for','feedback','watch_reason'];
+const BEIJING_DATE=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'});
+const BEIJING_CLOCK=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Shanghai',hour:'2-digit',minute:'2-digit',hourCycle:'h23'});
+function bjDate(at=new Date()){return BEIJING_DATE.format(new Date(at));}
+function plusDays(day,n){return new Date(Date.parse(day+'T12:00:00+08:00')+n*86400000).toISOString().slice(0,10);}
+function validDay(v){if(typeof v!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(v))return false;const d=new Date(v+'T12:00:00+08:00');return Number.isFinite(+d)&&bjDate(d)===v;}
+function validTime(v){return typeof v==='string'&&/^([01]\d|2[0-3]):[0-5]\d$/.test(v);}
+function bjMillis(day,time='00:00'){return Date.parse(`${day}T${time}:00+08:00`);}
+function isOpen(t){return ['todo','doing','waiting'].includes(t.status);}
+function isRecent(t){return t.category!=='task';}
+function isFamilyTask(t,entities=[]){const e=entities.find(e=>e.id===t.entity_id);return t.module==='education'||Boolean(e&&['exam','mistake'].includes(e.kind));}
+function normalizeTask(t){
+  const copy={...t,category:t.category||'task',module:t.module||'general',entity_id:t.entity_id||null,status:t.status||'todo',priority:t.priority||'normal',notes:t.notes||'',milestone:Boolean(t.milestone),all_day:Boolean(t.all_day),submitted_at:t.submitted_at||null,completed:t.completed||null,previous_status:t.previous_status||null,checklist:t.checklist||[]};
+  for(const k of [...TASK_DATE_FIELDS,...TASK_TIME_FIELDS])copy[k]=t[k]||null;
+  for(const k of TASK_TEXT_FIELDS)copy[k]=t[k]||'';
+  if(!EVENT_CATEGORIES.includes(copy.category)){for(const k of ['start_date','start_time','end_date','end_time'])copy[k]=null;copy.all_day=false;}
+  if(!['task','submission','errand'].includes(copy.category)){copy.due=null;copy.due_time=null;}
+  if(!['watch','submission','waiting'].includes(copy.category))copy.follow_up_date=null;
+  if(copy.category!=='waiting')copy.sent_date=null;
+  if(copy.category!=='submission')copy.submitted_at=null;
+  if(['watch','waiting'].includes(copy.category))copy.checklist=[];
+  return copy;
+}
+function eventSpan(t){
+  if(!EVENT_CATEGORIES.includes(t.category)||!t.start_date)return null;
+  const endDay=t.end_date||t.start_date;
+  return {start:bjMillis(t.start_date,t.all_day?'00:00':t.start_time||'00:00'),end:bjMillis(endDay,t.all_day?'23:59':t.end_time||'23:59')+((t.all_day||!t.end_time)?59999:0)};
+}
+function isOverdue(t,at=new Date()){
+  if(!isOpen(t)||!t.due||t.category==='submission'&&(t.submitted_at||t.status==='waiting'))return false;
+  const end=t.due_time?bjMillis(t.due,t.due_time):bjMillis(t.due,'23:59')+59999;
+  return end<+new Date(at);
+}
+function needsFollowUp(t,at=new Date()){return isOpen(t)&&Boolean(t.follow_up_date)&&t.follow_up_date<=bjDate(at);}
+function needsWrapUp(t,at=new Date()){const span=eventSpan(t);return isOpen(t)&&span!==null&&span.end<+new Date(at);}
+function hasDateInRange(t,first,last){
+  const schedule=eventSpan(t);
+  if(schedule&&schedule.start<=bjMillis(last,'23:59')+59999&&schedule.end>=bjMillis(first))return true;
+  const deadline=!(t.category==='submission'&&(t.submitted_at||t.status==='waiting'))?t.due:null;
+  return [deadline,t.follow_up_date].some(d=>d&&d>=first&&d<=last);
+}
+function matchesRecentRange(t,range,at=new Date()){
+  const day=bjDate(at);
+  if(range==='all')return true;
+  if(range==='overdue')return isOverdue(t,at);
+  if(range==='followup')return needsFollowUp(t,at);
+  if(range==='wrapup')return needsWrapUp(t,at);
+  if(range==='today')return hasDateInRange(t,day,day);
+  if(range==='7')return hasDateInRange(t,day,plusDays(day,6));
+  const undated=!t.start_date&&!t.due&&!t.follow_up_date;
+  return hasDateInRange(t,day,plusDays(day,29))||isOverdue(t,at)||needsFollowUp(t,at)||needsWrapUp(t,at)||undated;
+}
+function recentSummary(tasks,at=new Date(),hidden=false,entities=[]){
+  const rows=tasks.filter(t=>isRecent(t)&&isOpen(t)&&!(hidden&&isFamilyTask(t,entities)));
+  return {today:rows.filter(t=>matchesRecentRange(t,'today',at)).length,week:rows.filter(t=>matchesRecentRange(t,'7',at)).length,overdue:rows.filter(t=>isOverdue(t,at)).length,followup:rows.filter(t=>needsFollowUp(t,at)).length};
+}
+function nextTaskTime(t){
+  const span=eventSpan(t),stamps=[span?.start,t.follow_up_date?bjMillis(t.follow_up_date):null,t.due&&!(t.category==='submission'&&(t.submitted_at||t.status==='waiting'))?bjMillis(t.due,t.due_time||'23:59'):null].filter(v=>v!=null);
+  return stamps.length?Math.min(...stamps):Number.MAX_SAFE_INTEGER;
+}
+function sortTasks(a,b){return nextTaskTime(a)-nextTaskTime(b)||(a.priority==='high'?-1:0)-(b.priority==='high'?-1:0)||b.created.localeCompare(a.created);}
+function duplicateTask(t){
+  const copy=normalizeTask(structuredClone(t));
+  delete copy.id;delete copy.created;delete copy.updated;
+  copy.title=t.title.slice(0,194)+'（副本）';copy.status='todo';copy.previous_status=null;copy.completed=null;copy.submitted_at=null;
+  copy.receipt='';copy.feedback='';copy.after_notes='';
+  for(const k of [...TASK_DATE_FIELDS,...TASK_TIME_FIELDS])copy[k]=null;
+  copy.checklist=copy.checklist.map(c=>({...c,id:newId(),done:false}));
+  return copy;
+}
+function checklistFromText(text,previous=[]){
+  const pools=new Map();for(const item of previous){if(!pools.has(item.text))pools.set(item.text,[]);pools.get(item.text).push(item);}
+  return text.split(/\r?\n/).map(s=>s.trim()).filter(Boolean).map(text=>{const existing=pools.get(text)?.shift();return existing?{...existing}:{id:newId(),text,done:false};});
+}
+
+const STORAGE_KEY = 'zhixing-workbench-html-v2';
+const LEGACY_STORAGE_KEY = 'zhixing-workbench-html-v1';
+function freshStore() {return {schema:2,entities:[],tasks:[],reviews:[]};}
 function readStore() {
-  let raw;
-  try {raw=localStorage.getItem(STORAGE_KEY);} catch {throw new Error('当前浏览器不允许保存数据。请用普通浏览模式，或将 HTML 放到您自己的静态网站中访问。');}
-  if(!raw)return freshStore();
-  try {return validateStore(JSON.parse(raw));} catch {throw new Error('浏览器中的记录格式异常，未覆盖原数据。请保留数据并从备份恢复。');}
+  let raw,legacy;
+  try {raw=localStorage.getItem(STORAGE_KEY);if(raw===null)legacy=localStorage.getItem(LEGACY_STORAGE_KEY);} catch {throw new Error('当前浏览器不允许保存数据。请用普通浏览模式，或将 HTML 放到您自己的静态网站中访问。');}
+  if(raw===null&&legacy===null)return freshStore();
+  let store;
+  try {store=validateStore(JSON.parse(raw===null?legacy:raw));} catch {throw new Error('浏览器中的记录格式异常，未覆盖原数据。请保留数据并从备份恢复。');}
+  if(raw===null)saveStore(store);
+  return store;
 }
 function saveStore(store) {
-  validateStore(store);
-  try {localStorage.setItem(STORAGE_KEY,JSON.stringify(store));} catch {throw new Error('保存失败：浏览器存储已满或被禁用。请先导出记录，不要关闭尚未保存的表单。');}
+  const valid=validateStore(store);
+  try {localStorage.setItem(STORAGE_KEY,JSON.stringify(valid));} catch {throw new Error('保存失败：浏览器存储已满或被禁用。请先导出记录，不要关闭尚未保存的表单。');}
 }
 function validateStore(store) {
   const fail=()=>{throw new Error('备份格式或记录关联不正确，当前数据保持不变。');};
-  const dateOK=v=>v==null||v===''||typeof v==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(v)&&!Number.isNaN(Date.parse(v));
+  const dateOK=v=>v==null||v===''||validDay(v);
   const textOK=v=>typeof v==='string'&&v.length<=30000;
   const idOK=v=>typeof v==='string'&&/^[a-f0-9]{32}$/.test(v);
-  if(!store||store.schema!==1||!Array.isArray(store.entities)||!Array.isArray(store.tasks)||!Array.isArray(store.reviews))fail();
+  if(!store||![1,2].includes(store.schema)||!Array.isArray(store.entities)||!Array.isArray(store.tasks)||!Array.isArray(store.reviews))fail();
   if(store.entities.length+store.tasks.length+store.reviews.length>20000)fail();
   const ids=new Map();
   for(const e of store.entities){
@@ -106,31 +196,44 @@ function validateStore(store) {
     if(e.details.project_id&&(e.kind!=='learning'||ids.get(e.details.project_id)?.kind!=='project'))fail();
   }
   const tids=new Set();
-  for(const t of store.tasks){
-    if(!t||!idOK(t.id)||tids.has(t.id)||!textOK(t.title)||!t.title.trim()||!['research','learning','education'].includes(t.module)||!['todo','doing','done'].includes(t.status)||!['normal','high'].includes(t.priority)||!dateOK(t.due)||!textOK(t.notes)||!textOK(t.created))fail();
+  const tasks=[];
+  for(const raw of store.tasks){
+    if(!raw||typeof raw!=='object')fail();
+    const t=normalizeTask(raw);
+    if(!idOK(t.id)||tids.has(t.id)||!textOK(t.title)||!t.title.trim()||t.title.length>200||!['general','research','learning','education'].includes(t.module)||!Object.hasOwn(RECENT_STATUSES,t.status)||!Object.hasOwn(CATEGORY_NAMES,t.category)||!['normal','high'].includes(t.priority)||!textOK(t.notes)||!textOK(t.created))fail();
     if(t.entity_id&&modules[ids.get(t.entity_id)?.kind]!==t.module)fail();
+    for(const k of TASK_DATE_FIELDS)if(!dateOK(t[k]))fail();
+    for(const k of TASK_TIME_FIELDS)if(t[k]!==null&&!validTime(t[k]))fail();
+    for(const k of TASK_TEXT_FIELDS)if(!textOK(t[k]))fail();
+    if(t.previous_status!==null&&(!Object.hasOwn(RECENT_STATUSES,t.previous_status)||t.previous_status==='archived'))fail();
+    for(const k of ['submitted_at','completed'])if(t[k]!==null&&(typeof t[k]!=='string'||!/^\d{4}-\d{2}-\d{2}T/.test(t[k])||!Number.isFinite(Date.parse(t[k]))))fail();
+    if(t.due_time&&!t.due||t.start_time&&!t.start_date||t.end_time&&!t.start_date||t.end_date&&!t.start_date)throw new Error('填写时间或结束日期前，请先填写对应的日期。');
+    const span=eventSpan(t);if(span&&span.end<span.start)throw new Error('结束日期和时间不能早于开始。');
+    if(!Array.isArray(t.checklist)||t.checklist.length>200)fail();
+    const checkids=new Set();for(const item of t.checklist){if(!item||!idOK(item.id)||checkids.has(item.id)||!textOK(item.text)||!item.text.trim()||typeof item.done!=='boolean')fail();checkids.add(item.id);}
     tids.add(t.id);
+    tasks.push(t);
   }
   const rids=new Set();
   for(const r of store.reviews){
     if(!r||!idOK(r.id)||rids.has(r.id)||ids.get(r.entity_id)?.kind!=='mistake'||!['independent','hint','incorrect'].includes(r.result)||!textOK(r.note)||!textOK(r.reviewed)||!dateOK(r.next_review))fail();
     rids.add(r.id);
   }
-  return {schema:1,entities:store.entities,tasks:store.tasks,reviews:store.reviews};
+  return {schema:2,entities:structuredClone(store.entities),tasks,reviews:structuredClone(store.reviews)};
 }
-function newId(){return crypto.randomUUID().replaceAll('-','');}
+function newId(){if(crypto.randomUUID)return crypto.randomUUID().replaceAll('-','');return [...crypto.getRandomValues(new Uint8Array(16))].map(n=>n.toString(16).padStart(2,'0')).join('');}
 async function api(path,options={}){
   const store=readStore(),method=options.method||'GET',body=options.body;
-  if(path==='/state')return {...structuredClone(store),entities:[...store.entities].sort((a,b)=>b.updated.localeCompare(a.updated)),tasks:[...store.tasks].reverse(),reviews:[...store.reviews].reverse(),documents:[],jobs:[],backups:[],csrf:'browser-only',version:'HTML 1.0'};
+  if(path==='/state')return {...structuredClone(store),entities:[...store.entities].sort((a,b)=>b.updated.localeCompare(a.updated)),tasks:[...store.tasks].reverse(),reviews:[...store.reviews].reverse(),documents:[],jobs:[],backups:[],csrf:'browser-only',version:'HTML 2.0'};
   const now=new Date().toISOString();let result;
   if(path==='/entities'&&method==='POST'){
     result={...body,id:newId(),created:now,updated:now};store.entities.push(result);
   }else if(/^\/entities\/[a-f0-9]{32}$/.test(path)&&method==='PUT'){
-    const e=store.entities.find(e=>e.id===path.split('/')[2]);if(!e)throw new Error('记录不存在');if(e.kind!==body.kind)throw new Error('不能更改记录类型');Object.assign(e,body,{updated:now});result=e;
+    const e=store.entities.find(e=>e.id===path.split('/')[2]);if(!e)throw new Error('记录不存在');if(e.kind!==body.kind)throw new Error('不能更改记录类型');Object.assign(e,body,{id:e.id,created:e.created,updated:now});result=e;
   }else if(path==='/tasks'&&method==='POST'){
-    result={...body,id:newId(),created:now,completed:body.status==='done'?now:null};store.tasks.push(result);
+    result=normalizeTask({...body,id:newId(),created:now,updated:now,completed:body.status==='done'?now:null});store.tasks.push(result);
   }else if(/^\/tasks\/[a-f0-9]{32}$/.test(path)&&method==='PUT'){
-    const t=store.tasks.find(t=>t.id===path.split('/')[2]);if(!t)throw new Error('任务不存在');Object.assign(t,body,{completed:body.status==='done'?(t.completed||now):null});result=t;
+    const t=store.tasks.find(t=>t.id===path.split('/')[2]);if(!t)throw new Error('任务不存在');const status=body.status||t.status;Object.assign(t,body,{id:t.id,created:t.created,updated:now,completed:status==='done'?(t.completed||now):status==='archived'?t.completed:null});result=normalizeTask(t);
   }else if(/^\/entities\/[a-f0-9]{32}\/reviews$/.test(path)&&method==='POST'){
     const e=store.entities.find(e=>e.id===path.split('/')[2]);if(e?.kind!=='mistake')throw new Error('只有错题可以记录再练');result={...body,id:newId(),entity_id:e.id,reviewed:now};store.reviews.push(result);e.details.next_review=body.next_review;e.updated=now;
   }else throw new Error('单文件 HTML 版不提供此项后端功能。');
@@ -143,8 +246,8 @@ function toast(message){$('#toast').textContent=message;$('#toast').classList.ad
 function empty(title,description,action='',kind='task') {return `<div class="empty"><div class="empty-icon">${icon(kind)}</div><strong>${title}</strong>${description}${action}</div>`;}
 function heading(eyebrow,title,description,button='') {return `<div class="page-heading"><div><div class="eyebrow">${eyebrow}</div><h1>${title}</h1><p class="subtitle">${description}</p></div>${button}</div>`;}
 function actionButton(action,title,extra='',kind='primary'){return `<button class="button ${kind}" data-action="${action}" ${extra}>${title}</button>`;}
-function route(){const [page,id]=location.hash.slice(1).split('/');view=['overview','research','learning','education','tasks','settings'].includes(page)?page:'overview';selected=id||null;search='';$('#search').value='';statusFilter='active';if(hideFamily&&view==='education'){view='overview';selected=null;}render();window.scrollTo(0,0);}
-function render(){
+function routeBase(){const [page,id]=location.hash.slice(1).split('/');view=['overview','research','learning','education','tasks','settings'].includes(page)?page:'overview';selected=id||null;search='';$('#search').value='';statusFilter='active';if(hideFamily&&view==='education'){view='overview';selected=null;}render();window.scrollTo(0,0);}
+function renderBase(){
   if(!state)return;
   const nav=[['overview','home','总览'],['research','research','科研'],['learning','learning','学习'],...(!hideFamily?[['education','education','家庭教育']]:[]),['tasks','task','全部任务'],['settings','settings','数据备份']];
   $('#navigation').innerHTML=nav.map(([id,i,title])=>`<a href="#${id}" aria-label="${title}" title="${title}" class="nav-item ${view===id?'active':''}" ${view===id?'aria-current="page"':''}>${icon(i)}<span>${title}</span>${view===id?'<i class="nav-dot"></i>':''}</a>`).join('');
@@ -155,22 +258,22 @@ function render(){
   if(hideFamily)html='<div class="privacy-banner">家庭内容已在当前页面隐藏。'+actionButton('privacy','恢复显示','','subtle')+'</div>'+html;
   $('#main').innerHTML=html;
 }
-function renderOverview(){
-  const pending=state.tasks.filter(t=>visibleTask(t)&&t.status!=='done');
+function renderOverviewBase(){
+  const pending=state.tasks.filter(t=>visibleTask(t)&&isOpen(t));
   const overdue=pending.filter(t=>t.due&&t.due<today());
   const dueToday=pending.filter(t=>t.due===today());
   const thisWeek=pending.filter(t=>t.due&&t.due>=today()&&t.due<=afterDays(7));
   const reviewCount=state.tasks.filter(t=>visibleTask(t)&&t.status==='done').length;
-  const focus=[...pending].filter(matches).sort((a,b)=>(a.due||'9999').localeCompare(b.due||'9999')||(a.priority==='high'?-1:1)).slice(0,6);
+  const focus=[...pending].filter(matches).sort(sortTasks).slice(0,6);
   const recent=state.entities.filter(e=>visibleEntity(e)&&matches(e)&&e.status!=='archived').slice(0,4);
   const courses=state.entities.filter(e=>e.status==='active');
-  return heading('A LITTLE PROGRESS, EVERY DAY','今天，从一件重要的事开始。','把科研、学习与孩子的成长，放在一个安静的空间里。',`<div class="date-badge">${new Date().toLocaleDateString('zh-CN',{month:'long',day:'numeric',weekday:'long'})}</div>`)+`
+  return heading('A LITTLE PROGRESS, EVERY DAY','今天，从一件重要的事开始。','把科研、学习与孩子的成长，放在一个安静的空间里。',`<div class="date-badge">${new Date().toLocaleDateString('zh-CN',{month:'long',day:'numeric',weekday:'long',timeZone:'Asia/Shanghai'})}</div>`)+`
   <div class="overview-grid"><section class="hero"><div class="eyebrow">留一点时间，给长期重要的事</div><h2>有所思，也有所行。</h2><p>${pending.length?`还有 ${pending.length} 项待推进的任务。选一个小步骤，给今天留下进展。`:'从一个项目、一条笔记，或一次共同复盘开始。记录保存在当前浏览器。'}</p>${actionButton('new-task','＋ 记下下一步')}</section><section class="metric-card"><div class="section-heading"><h2>近期节奏</h2>${icon('clock')}</div><div class="metrics"><div><div class="metric-value">${dueToday.length}</div><div class="metric-label">今日到期</div></div><div><div class="metric-value ${overdue.length?'alert':''}">${overdue.length}</div><div class="metric-label">已逾期</div></div><div><div class="metric-value">${thisWeek.length}</div><div class="metric-label">未来 7 天</div></div><div><div class="metric-value">${reviewCount}</div><div class="metric-label">累计完成任务</div></div></div></section></div>
   <div class="module-grid"><a class="module-card" href="#research"><div class="module-icon">${icon('research')}</div><div class="module-head"><h3>科研 · 逐步推进</h3><span>↗</span></div><p>从下一节点，到可查证的成果。</p><div class="module-stat"><strong>${courses.filter(e=>e.kind==='project').length}</strong> 个进行中的项目</div></a><a class="module-card" href="#learning"><div class="module-icon gold">${icon('learning')}</div><div class="module-head"><h3>学习 · 有所积累</h3><span>↗</span></div><p>留下问题、理解与可以实践的下一步。</p><div class="module-stat"><strong>${courses.filter(e=>e.kind==='learning').length}</strong> 个正在学习的主题</div></a>${!hideFamily?`<a class="module-card" href="#education"><div class="module-icon blue">${icon('education')}</div><div class="module-head"><h3>成长 · 一起复盘</h3><span>↗</span></div><p>看见进步，也找到下一次练习的重点。</p><div class="module-stat"><strong>${courses.filter(e=>e.kind==='mistake'&&e.details.next_review&&e.details.next_review<=today()).length}</strong> 道到期再练的错题</div></a>`:''}</div>
   <div class="lower-grid"><section class="panel"><div class="section-heading"><h2>接下来，做这些</h2><a class="button subtle" href="#tasks">查看全部 →</a></div>${focus.length?focus.map(taskRow).join(''):empty(search?'没有找到匹配的任务':'给今天留一个小目标',search?'换个关键词试试。':'任务只需填写标题，其他信息可以慢慢补。',actionButton('new-task','＋ 添加任务','','small'))}</section><section class="panel"><div class="section-heading"><h2>最近在关注</h2><span class="muted">持续积累</span></div>${recent.length?recent.map(e=>`<a class="recent-item" href="#${modules[e.kind]}/${e.id}"><span class="mini-icon">${icon(modules[e.kind])}</span><div><h3>${esc(e.title)}</h3><p>${names[e.kind]} · ${formatTime(e.updated)}</p></div></a>`).join(''):empty('这里会留下您的进展','新建的项目、学习笔记和复盘会显示在这里。','','learning')}</section></div>`;
 }
-function taskRow(t){return `<div class="task-row ${t.status==='done'?'completed':''}"><button class="task-check ${t.status==='done'?'done':''}" data-action="toggle-task" data-id="${t.id}" aria-label="${t.status==='done'?'重新打开':'完成'}任务：${esc(t.title)}">${t.status==='done'?'✓':''}</button><div class="task-body"><button class="task-title" data-action="edit-task" data-id="${t.id}">${esc(t.title)}</button><div class="task-meta">${moduleTag(t.module)}${t.milestone?'<span>◆ 里程碑</span>':''}${t.priority==='high'?'<span class="overdue">优先</span>':''}${t.entity_id?`<a href="#${t.module}/${t.entity_id}">${esc(entityById(t.entity_id)?.title||'')}</a>`:''}${t.status==='doing'?'<span>进行中</span>':''}</div></div><span class="task-date ${t.due&&t.due<today()&&t.status!=='done'?'overdue':''}">${t.due?esc(t.due===today()?'今天':t.due):'未设日期'}</span></div>`;}
-function renderTasks(){
+function taskRowBase(t){return `<div class="task-row ${t.status==='done'?'completed':''}"><button class="task-check ${t.status==='done'?'done':''}" data-action="toggle-task" data-id="${t.id}" aria-label="${t.status==='done'?'重新打开':'完成'}任务：${esc(t.title)}">${t.status==='done'?'✓':''}</button><div class="task-body"><button class="task-title" data-action="edit-task" data-id="${t.id}">${esc(t.title)}</button><div class="task-meta">${moduleTag(t.module)}${t.milestone?'<span>◆ 里程碑</span>':''}${t.priority==='high'?'<span class="overdue">优先</span>':''}${t.entity_id?`<a href="#${t.module}/${t.entity_id}">${esc(entityById(t.entity_id)?.title||'')}</a>`:''}${t.status==='doing'?'<span>进行中</span>':''}</div></div><span class="task-date ${t.due&&t.due<today()&&t.status!=='done'?'overdue':''}">${t.due?esc(t.due===today()?'今天':t.due):'未设日期'}</span></div>`;}
+function renderTasksBase(){
   const tasks=state.tasks.filter(t=>visibleTask(t)&&matches(t)&&(statusFilter==='all'||(statusFilter==='done'?t.status==='done':t.status!=='done'))).sort((a,b)=>(a.due||'9999').localeCompare(b.due||'9999'));
   return heading('ONE STEP AT A TIME','把下一步写清楚。','科研、学习与家庭教育共用一份任务清单。',actionButton('new-task','＋ 添加任务'))+`<div class="toolbar"><div class="tabs">${[['active','待推进'],['done','已完成'],['all','全部']].map(([v,n])=>`<button class="${statusFilter===v?'active':''}" data-action="filter-status" data-value="${v}">${n}</button>`).join('')}</div><span class="muted">${tasks.length} 项</span></div><section class="panel">${tasks.length?tasks.map(taskRow).join(''):empty('当前没有任务','把一个大目标拆成今天能做的小步骤。',actionButton('new-task','＋ 添加任务','','small'))}</section>`;
 }
@@ -201,7 +304,7 @@ function renderDetailBase(e){
   ${e.kind==='mistake'?`<section class="panel"><div class="section-heading"><h2>再练与反馈</h2>${actionButton('new-review','＋ 记录再练',`data-id="${e.id}"`,'subtle')}</div>${reviews.length?reviews.map(r=>`<div class="review-item"><span class="tag ${r.result==='incorrect'?'red':r.result==='hint'?'gold':''}">${resultNames[r.result]}</span><p>${esc(r.note||'未添加说明')}</p><small>${formatTime(r.reviewed)}${r.next_review?` · 下次 ${r.next_review}`:''}</small></div>`).join(''):empty('一次再练，比一次勾选更有用','记录能否独立做对，以及下次准备如何练习。')}</section>`:''}</div>
   <aside></aside></div>`;
 }
-function openDialog(title,body,footer=''){const dialog=$('#dialog');$('#dialog-content').innerHTML=`<div class="dialog-header"><h2>${title}</h2><button class="close" data-action="close" aria-label="关闭">×</button></div>${body}${footer}`;if(!dialog.open)dialog.showModal();}
+function openDialog(title,body,footer=''){const dialog=$('#dialog');$('#dialog-content').innerHTML=`<div class="dialog-header"><h2>${title}</h2><button class="close" data-action="close" aria-label="关闭">×</button></div>${body}${footer}`;if(!dialog.open)dialog.showModal();dialog.scrollTop=0;}
 function closeDialog(){if(!busy)$('#dialog').close();}
 function formDialog(title,formType,body,attrs='',save='保存记录'){openDialog(title,`<form id="editor" data-form="${formType}" ${attrs}><div class="dialog-body"><div class="form-grid">${body}</div><div class="form-error" id="form-error" role="alert"></div></div><div class="dialog-actions">${actionButton('close','取消','','')}<button class="button primary" type="submit">${save}</button></div></form>`);$('#editor button[data-action=close]').type='button';}
 function field(name,label,value='',type='text',options={}){let control='';if(type==='select')control=`<select name="${name}" ${options.required?'required':''}>${options.items.map(([v,n])=>`<option value="${esc(v)}" ${String(value??'')===String(v)?'selected':''}>${esc(n)}</option>`).join('')}</select>`;else if(type==='textarea')control=`<textarea name="${name}" ${options.required?'required':''} maxlength="30000" class="${options.long?'long':''}" placeholder="${esc(options.placeholder||'')}">${esc(value)}</textarea>`;else control=`<input name="${name}" type="${type}" value="${esc(value)}" ${options.required?'required':''} ${type==='number'?'min="0" max="10000" step="0.01"':''} ${type==='text'?'maxlength="200"':''} placeholder="${esc(options.placeholder||'')}">`;return `<label class="field ${options.wide?'wide':''}"><span>${label}${options.required?' *':''}</span>${control}${options.help?`<span class="help">${options.help}</span>`:''}</label>`;}
@@ -217,8 +320,8 @@ function entityForm(kind,id=null,parentId=null){
   body+=field('status','状态',e?.status||'active','select',{items:[['active','进行中'],['done','已完成'],['archived','已归档']],wide:true});
   formDialog(`${id?'编辑':'新建'}${names[kind]}`,'entity',body,`data-kind="${kind}" data-id="${id||''}"`);
 }
-function taskForm(id=null,entityId=null){const t=id?state.tasks.find(t=>t.id===id):{},e=entityId?entityById(entityId):null,module=t.module||modules[e?.kind]||(['research','learning','education'].includes(view)?view:'research');const entities=state.entities.filter(e=>modules[e.kind]===module);formDialog(id?'编辑任务':'记下下一步','task',field('title','准备做什么',t.title||'','text',{required:true,wide:true,placeholder:'写成一个明确、可以开始的行动'})+field('module','所属模块',module,'select',{items:Object.entries(moduleNames).filter(([m])=>!(hideFamily&&m==='education'))})+field('due','截止日期',t.due||'','date')+field('entity_id','关联事项',t.entity_id||entityId||'','select',{wide:true,items:[['','暂不关联'],...entities.map(e=>[e.id,e.title])]})+field('priority','优先级',t.priority||'normal','select',{items:[['normal','普通'],['high','优先']]})+field('status','状态',t.status||'todo','select',{items:[['todo','待开始'],['doing','进行中'],['done','已完成']]})+field('notes','备注 / 完成依据',t.notes||'','textarea',{wide:true})+`<label class="check-field"><input type="checkbox" name="milestone" ${t.milestone?'checked':''}>这是一个里程碑</label>`,`data-id="${id||''}"`);}
-function quickDialog(){const choices=[['new-task','task','下一步任务','先记录，再慢慢整理。',''],['new-entity','research','科研项目','目标、节点和成果。','project'],['new-entity','learning','学习与笔记','把理解留下来。','learning'],...(!hideFamily?[['new-entity','education','考试复盘','先看到这次的进步。','exam'],['new-entity','education','代表错题','精选几题，安排再练。','mistake']]:[])];openDialog('从一条记录开始',`<div class="dialog-body"><div class="quick-grid">${choices.map(([a,i,t,d,k])=>`<button class="quick-card" data-action="${a}" data-kind="${k}">${icon(i)}<span><strong>${t}</strong><small>${d}</small></span></button>`).join('')}</div></div>`);}
+function taskFormBase(id=null,entityId=null){const t=id?state.tasks.find(t=>t.id===id):{},e=entityId?entityById(entityId):null,module=t.module||modules[e?.kind]||(['research','learning','education'].includes(view)?view:'research');const entities=state.entities.filter(e=>modules[e.kind]===module);formDialog(id?'编辑任务':'记下下一步','task',field('title','准备做什么',t.title||'','text',{required:true,wide:true,placeholder:'写成一个明确、可以开始的行动'})+field('module','所属模块',module,'select',{items:Object.entries(moduleNames).filter(([m])=>!(hideFamily&&m==='education'))})+field('due','截止日期',t.due||'','date')+field('entity_id','关联事项',t.entity_id||entityId||'','select',{wide:true,items:[['','暂不关联'],...entities.map(e=>[e.id,e.title])]})+field('priority','优先级',t.priority||'normal','select',{items:[['normal','普通'],['high','优先']]})+field('status','状态',t.status||'todo','select',{items:[['todo','待开始'],['doing','进行中'],['done','已完成']]})+field('notes','备注 / 完成依据',t.notes||'','textarea',{wide:true})+`<label class="check-field"><input type="checkbox" name="milestone" ${t.milestone?'checked':''}>这是一个里程碑</label>`,`data-id="${id||''}"`);}
+function quickDialogBase(){const choices=[['new-task','task','下一步任务','先记录，再慢慢整理。',''],['new-entity','research','科研项目','目标、节点和成果。','project'],['new-entity','learning','学习与笔记','把理解留下来。','learning'],...(!hideFamily?[['new-entity','education','考试复盘','先看到这次的进步。','exam'],['new-entity','education','代表错题','精选几题，安排再练。','mistake']]:[])];openDialog('从一条记录开始',`<div class="dialog-body"><div class="quick-grid">${choices.map(([a,i,t,d,k])=>`<button class="quick-card" data-action="${a}" data-kind="${k}">${icon(i)}<span><strong>${t}</strong><small>${d}</small></span></button>`).join('')}</div></div>`);}
 function reviewForm(id){formDialog('这一次，再练得怎么样？','review',field('result','再练结果','independent','select',{items:Object.entries(resultNames),wide:true})+field('note','孩子的反馈 / 仍然卡住的地方','','textarea',{wide:true})+field('next_review','下次再练日期',afterDays(7),'date',{wide:true,help:'可以按掌握情况调整；留空表示暂不安排。'}),`data-id="${id}"`,'保存再练记录');}
 document.addEventListener('click',async event=>{
   const button=event.target.closest('[data-action]');if(!button||busy)return;
@@ -239,7 +342,7 @@ document.addEventListener('click',async event=>{
     if(action==='archive-entity'){const e=entityById(id);await api(`/entities/${id}`,{method:'PUT',body:{kind:e.kind,title:e.title,status:e.status==='archived'?'active':'archived',parent_id:e.parent_id,details:e.details}});await reload();toast(e.status==='archived'?'记录已恢复':'已归档，可在“已归档”中恢复');}
   } catch(error){toast(error.message);}finally{busy=false;button.disabled=false;}
 });
-function taskPayload(t,status=t.status){return {title:t.title,module:t.module,entity_id:t.entity_id||null,due:t.due||null,status,priority:t.priority,milestone:Boolean(t.milestone),notes:t.notes||''};}
+function taskPayloadBase(t,status=t.status){return {title:t.title,module:t.module,entity_id:t.entity_id||null,due:t.due||null,status,priority:t.priority,milestone:Boolean(t.milestone),notes:t.notes||''};}
 document.addEventListener('submit',async event=>{
   if(event.target.id!=='editor')return;event.preventDefault();if(busy)return;
   const form=event.target,formType=form.dataset.form,id=form.dataset.id,f=new FormData(form),data=Object.fromEntries(f.entries());
@@ -272,7 +375,7 @@ function renderDetail(e){
   const linked=parentLink.length?`<section class="panel"><div class="section-heading"><h2>关联学习</h2></div>${parentLink.map(x=>`<a class="recent-item" href="#learning/${x.id}">${icon('learning')}<div><h3>${esc(x.title)}</h3><p>${esc(x.details.topic||'学习笔记')}</p></div></a>`).join('')}</section>`:'';
   return html.replace(/<aside>[\s\S]*<\/aside>/,`<aside>${linked}<section class="panel"><div class="section-heading"><h2>随手记，也记得备份</h2>${icon('file')}</div><p class="subtitle">记录保存在此浏览器，不会自动同步到其他设备。建议定期导出，尤其是在清理浏览器或更换电脑前。</p><div class="info-note">单文件版保留项目、学习、考试、错题和任务。附件库与 AI 文件交接请使用原来的本地服务版。</div>${actionButton('export-browser','导出全部记录','','small')}<a class="button subtle" href="#settings">数据管理 →</a></section></aside>`);
 }
-function renderSettings(){return heading('BROWSER EDITION / 单文件网页版','您的记录，留在这个浏览器。','无需安装 Python 或启动本地服务；打开 HTML 即可使用。')+`<div class="settings-grid"><section class="panel"><div class="section-heading"><h2>保存与导出</h2>${icon('file')}</div><p>科研、学习、考试、错题、任务和再练反馈会自动保存在当前浏览器的 localStorage。当前共有 ${state.entities.length} 条业务记录、${state.tasks.length} 项任务、${state.reviews.length} 次再练。</p><div class="inline-actions">${actionButton('export-browser','下载 JSON 备份')}${actionButton('import-browser','从 JSON 备份恢复','','')}</div><div class="info-note">隐私浏览、清除网站数据、更换浏览器或更换网站地址，都可能使记录不可用。请把备份保存在您自己选择的位置。</div></section><section class="panel"><div class="section-heading"><h2>使用与发布</h2>${icon('settings')}</div><p>这是一份独立 HTML 文件，样式和程序都已内嵌，没有外部字体、接口或 CDN。可直接打开，也可放在您自己的 HTTPS 静态网站中。</p><p>发布网页只发布程序，浏览器中的记录不会随文件一起上传。不同浏览器、不同设备的数据互相独立；没有登录、云同步和权限隔离。</p>${actionButton('privacy',hideFamily?'显示家庭内容':'演示时隐藏家庭内容','','small')}<p>隐藏家庭内容仅影响界面。导出的备份仍包含全部记录，请妥善保管。</p></section><section class="panel full"><div class="section-heading"><h2>网页版范围</h2></div><p>支持科研项目与里程碑、个人学习与项目关联、考试复盘、错题再练、统一任务、搜索及归档恢复。附件上传、AI 任务包、自动提醒、OCR 和多设备同步未包含在单文件版中。不要把 JSON 备份上传到公开网页。</p></section></div>`;}
+function renderSettings(){return heading('BROWSER EDITION 2.0 / 单文件网页版','您的记录，留在这个浏览器。','近期事项、科研、学习与家庭教育，共同组成日常工作台。')+`<div class="settings-grid"><section class="panel"><div class="section-heading"><h2>保存与导出</h2>${icon('file')}</div><p>当前共有 ${state.entities.length} 条业务记录、${state.tasks.filter(t=>isRecent(t)).length} 项近期事项、${state.tasks.filter(t=>!isRecent(t)).length} 项普通任务、${state.reviews.length} 次再练。记录保存在当前浏览器。</p><div class="inline-actions">${actionButton('export-browser','下载 JSON 备份')}${actionButton('import-browser','从 JSON 备份恢复','','')}</div><div class="info-note">支持导入版本 1 和版本 2 的备份。首次升级会复制旧记录到版本 2，保留原版本 1 存储。隐私浏览、清除网站数据、更换浏览器或网址，都可能使记录不可用，请定期下载备份。</div></section><section class="panel"><div class="section-heading"><h2>使用与发布</h2>${icon('settings')}</div><p>这是一份独立 HTML，样式和程序都已内嵌，没有外部字体、接口或 CDN。可直接打开，也可放在您自己的 HTTPS 静态网站中。</p><p>发布网页只发布程序，记录不会随文件上传。不同浏览器、不同设备的数据互相独立；没有登录、云同步和权限隔离。</p>${actionButton('privacy',hideFamily?'显示家庭内容':'演示时隐藏家庭内容','','small')}<p>家庭领域的近期事项也会隐藏；导出的备份仍包含全部记录。</p></section><section class="panel full"><div class="section-heading"><h2>事项与提醒</h2></div><p>近期事项支持行程、会议、关注、提交资料、办理、等待反馈、预约与活动。它与全部任务共用记录。时间按北京时间显示；页面打开时显示今日、7 天、逾期和到期跟进摘要，每分钟更新。已结束的会议、行程和活动保留在“待收尾”。页面关闭后不发送推送。</p><p>复制新建会清空日期、提交回执、会后反馈、完成状态和清单勾选。附件上传、AI 任务包、OCR 和多设备同步未包含在单文件版中。</p></section></div>`;}
 function downloadJSON(store,prefix='知行工作台备份'){
   const blob=new Blob([JSON.stringify({...store,exported_at:new Date().toISOString()},null,2)],{type:'application/json;charset=utf-8'});
   const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`${prefix}-${new Date().toISOString().replace(/[:.]/g,'-')}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);
@@ -302,9 +405,156 @@ document.addEventListener('submit',async event=>{
   }catch(error){$('#import-error').textContent=error.message;}
 });
 
+// Standalone edition: one task record, several views.
+moduleNames.general='综合';names.recent='近期事项';Object.assign(statusNames,RECENT_STATUSES);
+let recentRange='30',recentType='all',recentStatus='active',recentDraft=null;
+function route(){
+  const [page,id]=location.hash.slice(1).split('/');
+  view=['overview','recent','research','learning','education','tasks','settings'].includes(page)?page:'overview';selected=id||null;
+  search='';$('#search').value='';statusFilter='active';
+  if(view==='recent'){recentRange=['today','7','30','all','overdue','followup','wrapup'].includes(id)?id:'30';selected=null;recentType='all';recentStatus='active';}
+  if(hideFamily&&view==='education'){view='overview';selected=null;}
+  render();window.scrollTo(0,0);
+}
+function render(){
+  if(!state)return;
+  const nav=[['overview','home','总览'],['recent','clock','近期事项'],['research','research','科研'],['learning','learning','学习'],...(!hideFamily?[['education','education','家庭教育']]:[]),['tasks','task','全部任务'],['settings','settings','数据备份']];
+  $('#navigation').innerHTML=nav.map(([id,i,title])=>`<a href="#${id}" aria-label="${title}" title="${title}" class="nav-item ${view===id?'active':''}" ${view===id?'aria-current="page"':''}>${icon(i)}<span>${title}</span>${view===id?'<i class="nav-dot"></i>':''}</a>`).join('');
+  $('#privacy-button').textContent=hideFamily?'显示家庭内容':'隐藏家庭内容';
+  $('#breadcrumbs').textContent=`我的工作台 / ${view==='learning'?'个人学习':names[view]||'科研'}`;
+  const record=selected?entityById(selected):null;
+  let html=record&&visibleEntity(record)?renderDetail(record):view==='overview'?renderOverview():view==='recent'?renderRecent():view==='tasks'?renderTasks():view==='settings'?renderSettings():renderModule();
+  if(hideFamily)html='<div class="privacy-banner">家庭内容已在当前页面隐藏。'+actionButton('privacy','恢复显示','','subtle')+'</div>'+html;
+  $('#main').innerHTML=html;
+}
+function renderOverview(){
+  const counts=recentSummary(state.tasks,new Date(),hideFamily,state.entities);
+  const summary=`<section class="metric-card recent-summary"><div class="section-heading"><h2>近期事项</h2><a class="button subtle" href="#recent">全部 →</a></div><div class="metrics">${[['today','今日安排',counts.today],['7','未来 7 天',counts.week],['overdue','截止已逾期',counts.overdue],['followup','需要跟进',counts.followup]].map(([range,label,count])=>`<a href="#recent/${range}" class="summary-link" aria-label="${label}，${count}项"><div class="metric-value ${range==='overdue'&&count?'alert':''}">${count}</div><div class="metric-label">${label}</div></a>`).join('')}</div></section>`;
+  return renderOverviewBase().replace(/<section class="metric-card">[\s\S]*?<\/section>/,summary);
+}
+function recentSelect(id,label,value,options){return `<label class="recent-filter"><span>${label}</span><select id="${id}">${options.map(([v,n])=>`<option value="${v}" ${value===v?'selected':''}>${n}</option>`).join('')}</select></label>`;}
+function renderRecent(){
+  const rows=state.tasks.filter(t=>isRecent(t)&&visibleTask(t)&&matches(t)&&(recentType==='all'||t.category===recentType)&&
+    (recentStatus==='all'||recentStatus==='active'&&isOpen(t)||t.status===recentStatus)&&matchesRecentRange(t,recentRange)).sort(sortTasks);
+  const ranges=[['today','今日'],['7','未来 7 天'],['30','未来 30 天'],['all','全部'],['overdue','截止逾期'],['followup','需要跟进'],['wrapup','待收尾']];
+  return heading('UPCOMING / 近期事项','安排有着落，跟进不遗漏。','行程、会议、资料提交和等待的回复，都在这里。',actionButton('recent-new','＋ 新建事项'))+
+    `<div class="toolbar recent-toolbar"><div class="tabs range-tabs">${ranges.map(([v,n])=>`<button data-action="recent-range" data-value="${v}" class="${recentRange===v?'active':''}">${n}</button>`).join('')}</div></div><div class="toolbar">${recentSelect('recent-type','类型',recentType,[['all','全部类型'],...Object.entries(CATEGORY_NAMES).filter(([k])=>k!=='task')])}${recentSelect('recent-status','状态',recentStatus,[['active','待推进'],['todo','待开始'],['doing','进行中'],['waiting','等待反馈'],['done','已完成'],['cancelled','已取消'],['archived','已归档'],['all','全部状态']])}<span class="muted">${rows.length} 项</span></div>
+    <div class="info-note">${recentRange==='30'?'默认包括未来 30 天、所有逾期及到期跟进、待收尾和未定日期的事项。':'可按类型和状态筛选；发生时间、截止时间与跟进日期分别显示。'} 时间均按北京时间。</div><section class="panel recent-list">${rows.length?rows.map(recentRow).join(''):empty('这组事项已经清爽了','先记下标题和类型，时间及准备内容可以稍后补。',actionButton('recent-new','＋ 新建事项','','small'),'clock')}</section>`;
+}
+function renderTasks(){
+  const rows=state.tasks.filter(t=>visibleTask(t)&&matches(t)&&(statusFilter==='all'||statusFilter==='active'&&isOpen(t)||t.status===statusFilter)).sort(sortTasks);
+  return heading('ONE LIST / 全部任务','一份记录，多处同步。','普通任务和近期事项共用清单，项目中的关联行动也会显示在这里。',actionButton('new-task','＋ 添加任务'))+
+    `<div class="toolbar"><div class="tabs task-status-tabs">${[['active','待推进'],['done','已完成'],['cancelled','已取消'],['archived','已归档'],['all','全部']].map(([v,n])=>`<button data-action="filter-status" data-value="${v}" class="${statusFilter===v?'active':''}">${n}</button>`).join('')}</div><span class="muted">${rows.length} 项</span></div><section class="panel">${rows.length?rows.map(taskRow).join(''):empty('当前没有匹配的任务','可以从一个明确的小行动开始。',actionButton('new-task','＋ 添加任务','','small'))}</section>`;
+}
+function timeBadges(t){
+  const parts=[];
+  if(t.start_date){let text=t.start_date+(t.all_day?' 全天':t.start_time?' '+t.start_time:'');if(t.end_date||t.end_time)text+=' 至 '+(t.end_date||t.start_date)+(t.all_day?'':t.end_time?' '+t.end_time:'');parts.push(`<span>安排 ${esc(text)}</span>`);}
+  if(t.due)parts.push(`<span class="${isOverdue(t)?'overdue':''}">${t.category==='submission'&&(t.submitted_at||t.status==='waiting')?'原截止':'截止'} ${esc(t.due)}${t.due_time?' '+esc(t.due_time):''}</span>`);
+  if(t.follow_up_date)parts.push(`<span class="${needsFollowUp(t)?'follow-due':''}">跟进 ${esc(t.follow_up_date)}</span>`);
+  return parts.join('')||'<span>日期待定</span>';
+}
+function taskRow(t){return isRecent(t)?recentRow(t,true):taskRowBase(t);}
+function recentRow(t,compact=false){
+  const checklist=t.checklist,completed=checklist.filter(c=>c.done).length;
+  return `<article class="recent-row ${!isOpen(t)?'recent-closed':''}"><div class="recent-row-head"><button class="recent-title" data-action="recent-open" data-id="${t.id}">${esc(t.title)}</button><span class="tag ${t.status==='waiting'?'gold':t.status==='cancelled'||t.status==='archived'?'gray':t.status==='done'?'blue':''}">${RECENT_STATUSES[t.status]}</span></div><div class="task-meta"><span class="tag">${CATEGORY_NAMES[t.category]}</span>${moduleTag(t.module)}${t.priority==='high'?'<span class="overdue">优先</span>':''}${needsWrapUp(t)?'<span class="tag gold">待收尾</span>':''}${t.entity_id?`<a href="#${modules[entityById(t.entity_id).kind]}/${t.entity_id}">${esc(entityById(t.entity_id).title)}</a>`:''}</div><div class="recent-times">${timeBadges(t)}</div>${!compact&&t.location?`<p class="recent-note">${esc(t.location)}</p>`:''}${checklist.length?`<p class="recent-note">准备清单 ${completed} / ${checklist.length} 已完成</p>`:''}<div class="recent-row-actions">${actionButton('recent-open','查看',`data-id="${t.id}"`,'subtle')}${actionButton('recent-edit','编辑',`data-id="${t.id}"`,'subtle')}${isOpen(t)?actionButton('recent-state','完成',`data-id="${t.id}" data-status="done"`,'subtle'):''}${t.category==='submission'&&isOpen(t)&&!t.submitted_at?actionButton('recent-submit','标记已提交',`data-id="${t.id}"`,'subtle'):''}</div></article>`;
+}
+function taskPayload(t,status=t.status){return {...t,status,milestone:Boolean(t.milestone)};}
+function taskForm(id=null,entityId=null){const t=state.tasks.find(t=>t.id===id);if(t&&isRecent(t))return recentForm(id);return taskFormBase(id,entityId);}
+function quickDialog(){
+  const choices=[['recent-new','clock','近期事项','行程、会议、提交与跟进。',''],['new-task','task','下一步任务','先记录，再慢慢整理。',''],['new-entity','research','科研项目','目标、节点和成果。','project'],['new-entity','learning','学习与笔记','把理解留下来。','learning'],...(!hideFamily?[['new-entity','education','考试复盘','先看到这次的进步。','exam'],['new-entity','education','代表错题','精选几题，安排再练。','mistake']]:[])];
+  openDialog('从一条记录开始',`<div class="dialog-body"><div class="quick-grid">${choices.map(([a,i,t,d,k])=>`<button class="quick-card" data-action="${a}" data-kind="${k}">${icon(i)}<span><strong>${t}</strong><small>${d}</small></span></button>`).join('')}</div></div>`);
+}
+function specificFields(t){
+  const f=(name,label,type='text',options={})=>field(name,label,t[name]||'',type,options),wide={wide:true};let body='';
+  if(EVENT_CATEGORIES.includes(t.category))body+=`<label class="check-field field wide"><input type="checkbox" name="all_day" ${t.all_day?'checked':''}>全天安排</label>`+f('start_date','开始日期','date')+f('start_time','开始时间（可不填）','time')+f('end_date','结束日期（可不填）','date')+f('end_time','结束时间（可不填）','time')+f('location',t.category==='meeting'?'地点 / 会议链接':'地点','text',wide);
+  if(t.category==='travel')body+=f('travel_notes','交通与住宿说明','textarea',wide);
+  if(t.category==='meeting')body+=f('after_notes','会后行动','textarea',wide);
+  if(t.category==='watch')body+=f('source','信息来源','textarea',wide)+f('follow_up_date','下一次查看日期','date',wide)+f('watch_reason','关注原因','textarea',wide);
+  if(['submission','errand'].includes(t.category))body+=f('due','截止日期','date')+f('due_time','截止时间（可不填）','time');
+  if(t.category==='submission')body+=f('submission_channel','提交渠道','textarea',wide)+f('submitted_local','提交时间（可不填）','datetime-local',wide)+f('receipt','回执说明','textarea',wide)+f('waiting_for','等待对象','text',wide)+f('follow_up_date','下次跟进日期','date',wide);
+  if(t.category==='errand')body+=f('location','办理地点','text',wide)+f('contact','联系人','text',wide);
+  if(t.category==='waiting')body+=f('waiting_for','等待对象','text',wide)+f('sent_date','发出日期','date')+f('follow_up_date','下次跟进日期','date')+f('feedback','反馈记录','textarea',wide);
+  if(t.category==='appointment')body+=f('contact','联系人','text',wide);
+  if(['travel','meeting','submission','errand','appointment'].includes(t.category))body+=field('checklist_text',t.category==='errand'?'步骤与材料清单（每行一项）':t.category==='submission'?'材料清单（每行一项）':'准备清单（每行一项）',t.checklist_text??t.checklist.map(c=>c.text).join('\n'),'textarea',{wide:true,help:'保存后可以逐项勾选；编辑清单会保留未改名项目的完成状态。'});
+  return body;
+}
+function relatedOptions(module,selectedId){
+  return [['','暂不关联'],...state.entities.filter(e=>['project','learning','exam'].includes(e.kind)&&visibleEntity(e)&&(modules[e.kind]===module||e.id===selectedId)).map(e=>[e.id,e.title])];
+}
+function recentForm(id=null,copy=false){
+  const existing=id?state.tasks.find(t=>t.id===id):null;
+  const t=copy?duplicateTask(existing):normalizeTask(existing||{category:'travel',title:'',module:'general',status:'todo',priority:'normal',notes:''});
+  recentDraft=structuredClone(t);recentDraft.submitted_local=t.submitted_at?bjDate(t.submitted_at)+'T'+BEIJING_CLOCK.format(new Date(t.submitted_at)):'';
+  const body=field('title','事项标题',t.title,'text',{wide:true,required:true,placeholder:'先写下这件事，时间和准备内容可以稍后补充'})+field('category','事项类型',t.category,'select',{required:true,items:Object.entries(CATEGORY_NAMES).filter(([k])=>k!=='task')})+field('module','所属领域',t.module,'select',{items:Object.entries(moduleNames).filter(([m])=>!(hideFamily&&m==='education'))})+field('entity_id','关联已有事项',t.entity_id||'','select',{wide:true,items:relatedOptions(t.module,t.entity_id)})+`<div class="form-grid field wide recent-specific" id="recent-specific">${specificFields(recentDraft)}</div>`+field('status','状态',copy?'todo':t.status,'select',{items:Object.entries(RECENT_STATUSES)})+field('priority','优先级',t.priority,'select',{items:[['normal','普通'],['high','优先']]})+field('notes','备注',t.notes,'textarea',{wide:true});
+  formDialog(copy?'复制为新事项':existing?'编辑近期事项':'新建近期事项','recent',body,`data-id="${copy?'':id||''}"`);
+  $('#editor').id='recent-editor';syncAllDay();
+}
+function syncAllDay(){const form=$('#recent-editor');if(!form)return;for(const k of ['start_time','end_time'])if(form.elements[k])form.elements[k].disabled=Boolean(form.elements.all_day?.checked);}
+function collectDraft(form){
+  const draft={...recentDraft,...Object.fromEntries(new FormData(form).entries())};
+  if(EVENT_CATEGORIES.includes(draft.category)){draft.all_day=Boolean(form.elements.all_day?.checked);if(draft.all_day){draft.start_time=null;draft.end_time=null;}}
+  return draft;
+}
+function recentDetail(id){
+  const t=state.tasks.find(t=>t.id===id);if(!t||!visibleTask(t))return;
+  const labels={location:'地点 / 链接',contact:'联系人',source:'信息来源',travel_notes:'交通与住宿',after_notes:'会后行动',submission_channel:'提交渠道',receipt:'回执说明',waiting_for:'等待对象',sent_date:'发出日期',feedback:'反馈记录',watch_reason:'关注原因',notes:'备注'};
+  const details=Object.entries(labels).filter(([k])=>t[k]).map(([k,label])=>`<div class="detail-field wide"><dt>${label}</dt><dd>${esc(t[k])}</dd></div>`).join('');
+  const active=isOpen(t);
+  openDialog(esc(t.title),`<div class="dialog-body"><div class="task-meta"><span class="tag">${CATEGORY_NAMES[t.category]}</span>${moduleTag(t.module)}<span class="tag ${t.status==='waiting'?'gold':''}">${RECENT_STATUSES[t.status]}</span></div><div class="recent-times">${timeBadges(t)}</div>${needsWrapUp(t)?'<div class="info-note">安排已结束，尚未完成收尾。可以补充记录或将事项标记完成。</div>':''}${t.submitted_at?`<div class="info-note">已于 ${formatTime(t.submitted_at)} 提交。原截止日期保留作记录，不再计入逾期。</div>`:''}<dl class="detail-fields">${details||'<div class="detail-field wide"><dd>还没有补充说明。</dd></div>'}</dl>${t.checklist.length?`<div class="hint-label">准备 / 材料清单</div>${t.checklist.map(c=>`<label class="check-field"><input type="checkbox" data-recent-check="${c.id}" data-id="${t.id}" ${c.done?'checked':''} ${t.status==='archived'?'disabled':''}>${esc(c.text)}</label>`).join('')}`:''}</div>`,`<div class="dialog-actions recent-detail-actions">${actionButton('recent-edit','编辑',`data-id="${id}"`,'')}${actionButton('recent-copy','复制新建',`data-id="${id}"`,'')}${t.status==='archived'?actionButton('recent-state','恢复归档',`data-id="${id}" data-status="restore"`,'primary'):actionButton('recent-state','归档',`data-id="${id}" data-status="archived"`,'')}${active?actionButton('recent-state','取消事项',`data-id="${id}" data-status="cancelled"`,'subtle'):t.status!=='archived'?actionButton('recent-state','重新打开',`data-id="${id}" data-status="todo"`,''):''}${active&&t.category==='submission'&&!t.submitted_at?actionButton('recent-submit','标记已提交',`data-id="${id}"`,'primary'):active?actionButton('recent-state','完成',`data-id="${id}" data-status="done"`,'primary'):''}</div>`);
+}
+function submissionForm(id){const t=state.tasks.find(t=>t.id===id);formDialog('记录资料提交','submission',`<div class="info-note field wide">保存后记录当前提交时间，进入等待反馈，并停止计算原提交截止日期的逾期。</div>`+field('receipt','提交回执 / 说明',t.receipt,'textarea',{wide:true})+field('waiting_for','等待对象',t.waiting_for,'text',{wide:true})+field('follow_up_date','下次跟进日期',t.follow_up_date||'','date',{wide:true}),`data-id="${id}"`,'标记已提交');$('#editor').id='submission-editor';}
+async function updateRecent(id,changes){const t=state.tasks.find(t=>t.id===id);await api('/tasks/'+id,{method:'PUT',body:{...t,...changes}});await reload();}
+document.addEventListener('click',async event=>{
+  const button=event.target.closest('[data-action]');if(!button||busy)return;const {action,id,value,status}=button.dataset;
+  try{
+    if(action==='recent-new')return recentForm();
+    if(action==='recent-edit')return recentForm(id);
+    if(action==='recent-copy')return recentForm(id,true);
+    if(action==='recent-open')return recentDetail(id);
+    if(action==='recent-submit')return submissionForm(id);
+    if(action==='recent-range'){recentRange=value;return render();}
+    if(action==='recent-state'){
+      busy=true;const t=state.tasks.find(t=>t.id===id),next=status==='restore'?t.previous_status||'todo':status;
+      await updateRecent(id,{status:next,previous_status:status==='archived'?t.status:null});$('#dialog').close();toast(status==='restore'?'事项已恢复':next==='archived'?'已归档，可在归档列表中恢复':'状态已更新');
+    }
+  }catch(error){toast(error.message);}finally{busy=false;}
+});
+document.addEventListener('change',async event=>{
+  const input=event.target;
+  if(input.id==='recent-type'){recentType=input.value;render();return;}
+  if(input.id==='recent-status'){recentStatus=input.value;if(['done','cancelled','archived','all'].includes(recentStatus))recentRange='all';render();return;}
+  const form=input.closest('#recent-editor');
+  if(form&&input.name==='category'){recentDraft=collectDraft(form);$('#recent-specific').innerHTML=specificFields(recentDraft);syncAllDay();return;}
+  if(form&&input.name==='module'){const select=form.elements.entity_id;select.innerHTML=relatedOptions(input.value,null).map(([v,n])=>`<option value="${v}">${esc(n)}</option>`).join('');return;}
+  if(form&&input.name==='all_day'){syncAllDay();return;}
+  if(input.dataset.recentCheck){
+    if(busy){input.checked=!input.checked;return;}
+    busy=true;input.disabled=true;
+    try{const t=state.tasks.find(t=>t.id===input.dataset.id);await updateRecent(t.id,{checklist:t.checklist.map(c=>c.id===input.dataset.recentCheck?{...c,done:input.checked}:c)});toast('清单已保存');}
+    catch(error){input.checked=!input.checked;toast(error.message);}finally{busy=false;input.disabled=false;}
+  }
+});
+document.addEventListener('submit',async event=>{
+  const form=event.target;if(!['recent-editor','submission-editor'].includes(form.id))return;event.preventDefault();if(busy)return;
+  busy=true;const submit=form.querySelector('[type=submit]');submit.disabled=true;$('#form-error').textContent='';
+  try{
+    if(form.id==='submission-editor'){
+      await updateRecent(form.dataset.id,{...Object.fromEntries(new FormData(form).entries()),submitted_at:new Date().toISOString(),status:'waiting'});
+    }else{
+      const t=collectDraft(form);t.checklist=checklistFromText(t.checklist_text||'',recentDraft.checklist);delete t.checklist_text;
+      t.submitted_at=t.submitted_local?new Date(t.submitted_local+':00+08:00').toISOString():null;delete t.submitted_local;
+      if(t.category==='submission'&&t.status==='waiting'&&!t.submitted_at)t.submitted_at=new Date().toISOString();
+      if(t.status==='archived')t.previous_status=recentDraft.status==='archived'?recentDraft.previous_status:recentDraft.status||'todo';else t.previous_status=null;
+      const id=form.dataset.id;await api(id?'/tasks/'+id:'/tasks',{method:id?'PUT':'POST',body:t});await reload();
+    }
+    $('#dialog').close();toast('近期事项已保存');
+  }catch(error){$('#form-error').textContent=error.message;}finally{busy=false;submit.disabled=false;}
+});
+// Refresh time-sensitive summaries while the page stays open, without interrupting forms.
+setInterval(()=>{if(state&&!busy&&!$('#dialog').open&&['overview','recent'].includes(view))render();},60000);
+
 api('/state').then(result=>{state=result;route();}).catch(error=>{$('#main').innerHTML=`<div class="error-box"><h2>暂时无法打开浏览器存储</h2><p>${esc(error.message)}</p><p>请使用普通浏览模式，允许此页面存储数据，再刷新重试。</p></div>`;});
 
 </script>
 </body>
 </html>
-
