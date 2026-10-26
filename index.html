@@ -487,7 +487,7 @@ function route(){
 function render(){
   if(!state)return;
   const nav=[['overview','home','总览'],['recent','clock','近期事项'],['research','research','科研'],['learning','learning','学习'],...(!hideFamily?[['education','education','家庭教育']]:[]),['expenses','expenses','消费'],['tasks','task','全部任务'],['settings','settings','数据备份']];
-  $('#navigation').innerHTML=nav.map(([id,i,title])=>`<a href="#${id}" aria-label="${title}" title="${title}" class="nav-item ${view===id?'active':''}" ${view===id?'aria-current="page"':''}>${icon(i)}<span>${title}</span>${view===id?'<i class="nav-dot"></i>':''}</a>`).join('');
+  $('#navigation').innerHTML=nav.map(([id,i,title])=>`<a href="#${id}" aria-label="${title}" title="${title}" class="nav-item ${view===id?'active':''}" ${view===id?'aria-current="page"':''}>${icon(i)}<span>${title}</span>${view===id?'<i class="nav-dot"></i>':''}</a>`).join('')+`<a href="http://127.0.0.1:8767/" target="_blank" rel="noopener noreferrer" class="nav-item" aria-label="邮箱" title="邮箱（先启动本机邮箱组件）">${icon('file')}<span>邮箱</span></a>`;
   $('#privacy-button').textContent=hideFamily?'显示家庭内容':'隐藏家庭内容';
   $('#breadcrumbs').textContent=`我的工作台 / ${view==='learning'?'个人学习':names[view]||'科研'}`;
   const record=selected?entityById(selected):null;
