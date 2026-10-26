@@ -26,6 +26,16 @@
 @media(max-width:1150px){.expense-metric{padding:17px}.expense-metric>strong{font-size:22px}.expense-charts{grid-template-columns:1fr}.expense-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.expense-metrics{gap:10px;margin:20px 0}.expense-metric{padding:16px 12px}.expense-metric>strong{font-size:21px}.expense-overview-grid{grid-template-columns:1fr}.expense-row{gap:10px}.expense-amount{font-size:15px}.expense-trend{gap:5px}.expense-charts{gap:16px}.ledger-tabs{width:100%}.ledger-tabs a{flex:1;padding:10px}.expense-budget .section-heading{gap:8px}.expense-overview-item>strong{font-size:24px}.nav-item{flex-basis:42px}.expense-detail-total{font-size:30px}.expense-details .section-heading{flex-wrap:wrap}.expense-linked-panel{padding:16px}}
 
+/* Keep all nine destinations visible on phones instead of hiding the last ones. */
+@media(max-width:600px){
+  .sidebar{height:120px;padding:7px 9px}
+  #navigation{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));grid-auto-rows:48px;gap:4px;height:auto;overflow:visible}
+  #navigation .nav-item{min-width:0;min-height:48px;padding:5px 3px;gap:4px}
+  #navigation .nav-item>span{font-size:9px;white-space:nowrap}
+  .workspace{margin-bottom:120px}
+  .toast{bottom:134px}
+}
+
 </style>
 
 </head>
@@ -208,6 +218,11 @@ function validateExpenses(store,entityIds,taskIds,fail){
   }
   return {expenses:structuredClone(expenses),budgets:structuredClone(budgets)};
 }
+
+// Open school webmail directly; ignore legacy device-local proxy settings.
+// Account sign-in stays entirely on the school's website.
+const SCHOOL_MAIL_URL='https://mail.qztc.edu.cn/';
+function getMailUrl(){return SCHOOL_MAIL_URL;}
 
 const STORAGE_KEY = 'zhixing-workbench-html-v3';
 const PREVIOUS_STORAGE_KEY = 'zhixing-workbench-html-v2';
@@ -442,7 +457,7 @@ function renderDetail(e){
   const linked=parentLink.length?`<section class="panel"><div class="section-heading"><h2>关联学习</h2></div>${parentLink.map(x=>`<a class="recent-item" href="#learning/${x.id}">${icon('learning')}<div><h3>${esc(x.title)}</h3><p>${esc(x.details.topic||'学习笔记')}</p></div></a>`).join('')}</section>`:'';
   return html.replace(/<aside>[\s\S]*<\/aside>/,`<aside>${expenseLinkedPanel('entity',e.id)}${linked}<section class="panel"><div class="section-heading"><h2>随手记，也记得备份</h2>${icon('file')}</div><p class="subtitle">记录保存在此浏览器，不会自动同步到其他设备。建议定期导出，尤其是在清理浏览器或更换电脑前。</p><div class="info-note">单文件版保留项目、学习、考试、错题和任务。附件库与 AI 文件交接请使用原来的本地服务版。</div>${actionButton('export-browser','导出全部记录','','small')}<a class="button subtle" href="#settings">数据管理 →</a></section></aside>`);
 }
-function renderSettings(){return heading('BROWSER EDITION 3.0 / 单文件网页版','您的记录，留在这个浏览器。','近期事项、科研、学习、家庭教育与消费，共同组成日常工作台。')+`<div class="settings-grid"><section class="panel"><div class="section-heading"><h2>保存与导出</h2>${icon('file')}</div><p>当前共有 ${state.entities.length} 条业务记录、${state.tasks.filter(t=>isRecent(t)).length} 项近期事项、${state.tasks.filter(t=>!isRecent(t)).length} 项普通任务、${state.reviews.length} 次再练、${state.expenses.length} 笔消费、${state.budgets.length} 项月度预算。记录保存在当前浏览器。</p><div class="inline-actions">${actionButton('export-browser','下载 JSON 备份')}${actionButton('import-browser','从 JSON 备份恢复','','')}</div><div class="info-note">支持导入版本 1、2、3 的备份。首次升级会优先复制版本 2（或版本 1）到版本 3，保留原存储作为升级前副本。消费和预算随 JSON 一起备份恢复。隐私浏览、清除网站数据、更换浏览器或网址，都可能使记录不可用，请定期下载备份。</div></section><section class="panel"><div class="section-heading"><h2>使用与发布</h2>${icon('settings')}</div><p>这是一份独立 HTML，样式和程序都已内嵌，没有外部字体、接口或 CDN。可直接打开，也可放在您自己的 HTTPS 静态网站中。</p><p>发布网页只发布程序，记录不会随文件上传。不同浏览器、不同设备的数据互相独立；没有登录、云同步和权限隔离。</p>${actionButton('privacy',hideFamily?'显示家庭内容':'演示时隐藏家庭内容','','small')}<p>家庭领域的近期事项、家庭消费和相关金额也会隐藏；个人家庭账本的预算概况一并隐藏。导出的备份仍包含全部记录。</p></section><section class="panel full"><div class="section-heading"><h2>事项与提醒</h2></div><p>近期事项支持行程、会议、关注、提交资料、办理、等待反馈、预约与活动。它与全部任务共用记录。时间按北京时间显示；页面打开时显示今日、7 天、逾期和到期跟进摘要，每分钟更新。已结束的会议、行程和活动保留在“待收尾”。页面关闭后不发送推送。</p><p>复制新建会清空日期、提交回执、会后反馈、完成状态和清单勾选。附件上传、AI 任务包、OCR 和多设备同步未包含在单文件版中。</p></section></div>`;}
+function renderSettings(){return heading('BROWSER EDITION 3.0 / 单文件网页版','您的记录，留在这个浏览器。','近期事项、科研、学习、家庭教育与消费，共同组成日常工作台。')+`<div class="settings-grid"><section class="panel"><div class="section-heading"><h2>保存与导出</h2>${icon('file')}</div><p>当前共有 ${state.entities.length} 条业务记录、${state.tasks.filter(t=>isRecent(t)).length} 项近期事项、${state.tasks.filter(t=>!isRecent(t)).length} 项普通任务、${state.reviews.length} 次再练、${state.expenses.length} 笔消费、${state.budgets.length} 项月度预算。记录保存在当前浏览器。</p><div class="inline-actions">${actionButton('export-browser','下载 JSON 备份')}${actionButton('import-browser','从 JSON 备份恢复','','')}</div><div class="info-note">支持导入版本 1、2、3 的备份。首次升级会优先复制版本 2（或版本 1）到版本 3，保留原存储作为升级前副本。消费和预算随 JSON 一起备份恢复。隐私浏览、清除网站数据、更换浏览器或网址，都可能使记录不可用，请定期下载备份。</div></section><section class="panel"><div class="section-heading"><h2>使用与发布</h2>${icon('settings')}</div><p>这是一份独立 HTML，样式和程序都已内嵌，没有外部字体、接口或 CDN。可直接打开，也可放在您自己的 HTTPS 静态网站中。</p><p>发布网页只发布程序，记录不会随文件上传。不同浏览器、不同设备的数据互相独立；没有登录、云同步和权限隔离。</p>${actionButton('privacy',hideFamily?'显示家庭内容':'演示时隐藏家庭内容','','small')}<p>家庭领域的近期事项、家庭消费和相关金额也会隐藏；个人家庭账本的预算概况一并隐藏。导出的备份仍包含全部记录。</p></section><section class="panel full"><div class="section-heading"><h2>学校邮箱</h2></div><p>手机和电脑点击导航中的“邮箱”，即可在新页面打开泉州师范学院网页版邮箱，在学校页面登录账号。</p><div class="inline-actions"><a class="button small" href="${esc(getMailUrl())}" target="_blank" rel="noopener noreferrer">打开学校邮箱</a></div><p>直接联网使用，无需连接电脑或安装远程访问软件。邮箱登录由学校网站处理，账号密码不写入工作台或 JSON 备份。</p></section><section class="panel full"><div class="section-heading"><h2>事项与提醒</h2></div><p>近期事项支持行程、会议、关注、提交资料、办理、等待反馈、预约与活动。它与全部任务共用记录。时间按北京时间显示；页面打开时显示今日、7 天、逾期和到期跟进摘要，每分钟更新。已结束的会议、行程和活动保留在“待收尾”。页面关闭后不发送推送。</p><p>复制新建会清空日期、提交回执、会后反馈、完成状态和清单勾选。附件上传、AI 任务包、OCR 和多设备同步未包含在单文件版中。</p></section></div>`;}
 function downloadJSON(store,prefix='知行工作台备份'){
   const blob=new Blob([JSON.stringify({...store,exported_at:new Date().toISOString()},null,2)],{type:'application/json;charset=utf-8'});
   const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`${prefix}-${new Date().toISOString().replace(/[:.]/g,'-')}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);
@@ -487,7 +502,7 @@ function route(){
 function render(){
   if(!state)return;
   const nav=[['overview','home','总览'],['recent','clock','近期事项'],['research','research','科研'],['learning','learning','学习'],...(!hideFamily?[['education','education','家庭教育']]:[]),['expenses','expenses','消费'],['tasks','task','全部任务'],['settings','settings','数据备份']];
-  $('#navigation').innerHTML=nav.map(([id,i,title])=>`<a href="#${id}" aria-label="${title}" title="${title}" class="nav-item ${view===id?'active':''}" ${view===id?'aria-current="page"':''}>${icon(i)}<span>${title}</span>${view===id?'<i class="nav-dot"></i>':''}</a>`).join('')+`<a href="http://127.0.0.1:8767/" target="_blank" rel="noopener noreferrer" class="nav-item" aria-label="邮箱" title="邮箱（先启动本机邮箱组件）">${icon('file')}<span>邮箱</span></a>`;
+  $('#navigation').innerHTML=nav.map(([id,i,title])=>`<a href="#${id}" aria-label="${title}" title="${title}" class="nav-item ${view===id?'active':''}" ${view===id?'aria-current="page"':''}>${icon(i)}<span>${title}</span>${view===id?'<i class="nav-dot"></i>':''}</a>`).join('')+`<a href="${esc(getMailUrl())}" target="_blank" rel="noopener noreferrer" class="nav-item" aria-label="邮箱" title="泉州师范学院网页版邮箱">${icon('file')}<span>邮箱</span></a>`;
   $('#privacy-button').textContent=hideFamily?'显示家庭内容':'隐藏家庭内容';
   $('#breadcrumbs').textContent=`我的工作台 / ${view==='learning'?'个人学习':names[view]||'科研'}`;
   const record=selected?entityById(selected):null;
