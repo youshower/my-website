@@ -22,6 +22,10 @@
 @media(max-width:600px){nav{overflow-x:auto;justify-content:flex-start}.nav-item{flex:1 0 45px;padding:6px 4px;min-width:0}.nav-item>span{font-size:8px;white-space:nowrap}.range-tabs{width:100%}.recent-toolbar .tabs button{padding:8px 9px;font-size:10px}.recent-row-head{gap:8px}.recent-title{font-size:13px}.recent-times{gap:6px 12px}.recent-detail-actions .button{padding:9px 12px}.task-status-tabs{flex-wrap:wrap}.task-status-tabs button{padding:8px 11px}.recent-specific{padding:14px}.recent-filter{gap:6px}}
 .recent-specific{display:grid}
 
+.ledger-tabs a{background:transparent;border:0;color:var(--muted);padding:10px 19px}.ledger-tabs a.active{background:white;color:var(--green);box-shadow:0 1px 4px #243b2c08}.expense-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:24px 0}.expense-metric{padding:21px;background:white;border:1px solid var(--border);border-radius:var(--radius);min-width:0}.expense-metric>span{font-size:11px;color:var(--muted)}.expense-metric>strong{display:block;font-size:25px;font-family:Georgia,serif;font-weight:400;margin:15px 0 10px;overflow-wrap:anywhere;color:var(--green);font-variant-numeric:tabular-nums}.expense-metric>small{font-size:10px;color:var(--muted);line-height:1.7}.expense-alert>strong{color:var(--red)}.expense-budget p{font-size:11px;margin-top:14px;line-height:1.8}.expense-budget-label{display:flex;justify-content:space-between;font-size:12px}.expense-over span{background:var(--red)}.expense-details{margin:20px 0}.expense-row{display:flex;align-items:center;gap:18px;padding:17px 0;border-bottom:1px solid #edf0e9}.expense-row:last-child{border-bottom:0}.expense-row-main{flex:1;min-width:0}.expense-title{text-align:left;font-size:13px;line-height:1.7;padding:0;overflow-wrap:anywhere}.expense-title:hover{color:var(--green)}.expense-amount{font-size:16px;white-space:nowrap;font-family:Georgia,serif;font-weight:400;font-variant-numeric:tabular-nums}.expense-associated{overflow-wrap:anywhere}.expense-charts{display:grid;grid-template-columns:1fr 1fr;gap:20px}.expense-charts>.panel+.panel{margin:0}.expense-category-row{margin:20px 0}.expense-category-row>div:first-child{display:flex;justify-content:space-between;gap:12px;font-size:12px}.expense-category-row strong{font-weight:400}.expense-category-row small{color:var(--muted);font-size:10px;margin-left:6px}.expense-category-row .progress-track{margin-top:9px}.expense-trend{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;padding-top:10px}.expense-trend-column{text-align:center;min-width:0;display:flex;flex-direction:column;gap:12px}.expense-trend-column>span{font-size:9px;color:var(--muted);overflow-wrap:anywhere;min-height:27px}.expense-trend-column>small{font-size:9px;color:var(--muted)}.expense-trend-track{height:138px;display:flex;align-items:flex-end;justify-content:center;border-bottom:1px solid var(--border);background:linear-gradient(to bottom,transparent 49%,#edf0e9 50%,transparent 51%)}.expense-trend-track i{display:block;width:60%;max-width:34px;background:#8fa88b;border-radius:5px 5px 0 0;min-height:0}.expense-footnote{font-size:11px;color:var(--muted);margin:20px 0;line-height:1.8}.expense-overview{margin:0 0 24px}.expense-overview .section-heading small{font-size:11px;color:var(--muted);font-weight:400;margin-left:10px}.expense-overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.expense-overview-item{padding:16px;border:1px solid var(--border);border-radius:10px;display:flex;flex-direction:column;gap:12px;min-width:0}.expense-overview-item:hover{background:#f5f8f1}.expense-overview-item>strong{font-size:25px;font-weight:400;font-family:Georgia,serif;color:var(--green);overflow-wrap:anywhere}.expense-overview-item>span{font-size:11px;line-height:1.8}.expense-detail-total{font-family:Georgia,serif;color:var(--green);font-size:36px;overflow-wrap:anywhere}.expense-detail-title{margin:14px 0 24px;overflow-wrap:anywhere}.expense-linked-panel{margin-top:20px}.recent-filter input[type=month]{border:1px solid var(--border);border-radius:7px;padding:9px;background:white;color:var(--ink);max-width:180px;font-size:12px}.expense-charts .muted,.expense-linked-panel .muted{font-size:12px;line-height:1.8}
+@media(max-width:1150px){.expense-metric{padding:17px}.expense-metric>strong{font-size:22px}.expense-charts{grid-template-columns:1fr}.expense-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.expense-metrics{gap:10px;margin:20px 0}.expense-metric{padding:16px 12px}.expense-metric>strong{font-size:21px}.expense-overview-grid{grid-template-columns:1fr}.expense-row{gap:10px}.expense-amount{font-size:15px}.expense-trend{gap:5px}.expense-charts{gap:16px}.ledger-tabs{width:100%}.ledger-tabs a{flex:1;padding:10px}.expense-budget .section-heading{gap:8px}.expense-overview-item>strong{font-size:24px}.nav-item{flex-basis:42px}.expense-detail-total{font-size:30px}.expense-details .section-heading{flex-wrap:wrap}.expense-linked-panel{padding:16px}}
+
 </style>
 
 </head>
@@ -155,12 +159,63 @@ function checklistFromText(text,previous=[]){
   return text.split(/\r?\n/).map(s=>s.trim()).filter(Boolean).map(text=>{const existing=pools.get(text)?.shift();return existing?{...existing}:{id:newId(),text,done:false};});
 }
 
-const STORAGE_KEY = 'zhixing-workbench-html-v2';
+// Money is stored as integer cents; ledger and linked subject are independent.
+const LEDGERS={unit:'单位开支',home:'个人家庭开支'};
+const EXPENSE_CATEGORIES={unit:['科研材料','办公用品','设备','差旅交通','会议活动','教学','其他'],home:['餐饮','交通','购物','居家缴费','教育学习','医疗','文体娱乐','人情往来','其他']};
+const PAYMENT_METHODS=['','微信','支付宝','银行卡','现金','其他'];
+const MONEY_LIMIT=99999999999;
+const YUAN=new Intl.NumberFormat('zh-CN',{style:'currency',currency:'CNY',minimumFractionDigits:2,maximumFractionDigits:2});
+function money(cents){return YUAN.format(cents/100);}
+function parseMoney(value){
+  const text=String(value).trim();
+  if(!/^\d{1,9}(\.\d{1,2})?$/.test(text))throw new Error('请输入大于 0 的金额，最多保留两位小数。');
+  const [yuan,fraction='']=text.split('.'),cents=Number(yuan)*100+Number(fraction.padEnd(2,'0'));
+  if(!Number.isSafeInteger(cents)||cents<=0||cents>MONEY_LIMIT)throw new Error('金额须在 0.01 至 999,999,999.99 元之间。');
+  return cents;
+}
+function validMonth(value){return typeof value==='string'&&/^\d{4}-(0[1-9]|1[0-2])$/.test(value)&&validDay(value+'-01');}
+function shiftMonth(month,n){const [y,m]=month.split('-').map(Number),d=new Date(Date.UTC(y,m-1+n,15));return d.toISOString().slice(0,7);}
+function familyLinkedExpense(e,entities=[],tasks=[]){
+  const entity=entities.find(x=>x.id===e.entity_id),task=tasks.find(x=>x.id===e.task_id);
+  return Boolean(entity&&['exam','mistake'].includes(entity.kind)||task&&isFamilyTask(task,entities));
+}
+function visibleExpense(e,hidden=false,entities=[],tasks=[]){return !(hidden&&e.ledger==='home'&&(e.scope==='family'||familyLinkedExpense(e,entities,tasks)));}
+function expenseStats(expenses,ledger,month,hidden=false,entities=[],tasks=[]){
+  const rows=expenses.filter(e=>e.ledger===ledger&&e.date.slice(0,7)===month&&visibleExpense(e,hidden,entities,tasks));
+  const categories=Object.fromEntries(EXPENSE_CATEGORIES[ledger].map(c=>[c,0]));
+  for(const e of rows)categories[e.category]+=e.amount_cents;
+  return {rows,total:rows.reduce((sum,e)=>sum+e.amount_cents,0),count:rows.length,categories};
+}
+function budgetState(budgets,ledger,month,total,hidden=false){
+  if(hidden&&ledger==='home')return {hidden:true,amount:null,remaining:null,percent:0,level:'hidden'};
+  const amount=budgets.find(b=>b.ledger===ledger&&b.month===month)?.amount_cents??null;
+  if(amount===null)return {hidden:false,amount:null,remaining:null,percent:0,level:'unset'};
+  return {hidden:false,amount,remaining:amount-total,percent:Math.min(100,total/amount*100),level:total>amount?'over':total>=amount*.8?'near':'normal'};
+}
+function validateExpenses(store,entityIds,taskIds,fail){
+  if(store.schema===3&&(!Array.isArray(store.expenses)||!Array.isArray(store.budgets)))fail();
+  const expenses=store.schema===3?store.expenses:[],budgets=store.schema===3?store.budgets:[];
+  if(expenses.length+budgets.length>20000)fail();
+  const ids=new Set(),budgetKeys=new Set(),text=(v,n=30000)=>typeof v==='string'&&v.length<=n;
+  for(const e of expenses){
+    if(!e||typeof e!=='object'||!Object.hasOwn(LEDGERS,e.ledger)||!EXPENSE_CATEGORIES[e.ledger].includes(e.category)||!['personal','family'].includes(e.scope)||e.ledger==='unit'&&e.scope!=='personal'||!text(e.id,32)||!/^[a-f0-9]{32}$/.test(e.id)||ids.has(e.id)||!text(e.title,200)||!e.title.trim()||!validDay(e.date)||!Number.isSafeInteger(e.amount_cents)||e.amount_cents<=0||e.amount_cents>MONEY_LIMIT||!PAYMENT_METHODS.includes(e.payment)||!text(e.merchant,200)||!text(e.notes)||!text(e.created)||!text(e.updated))fail();
+    if(e.entity_id!==null&&!entityIds.has(e.entity_id)||e.task_id!==null&&!taskIds.has(e.task_id)||e.entity_id&&e.task_id)fail();
+    ids.add(e.id);
+  }
+  for(const b of budgets){
+    if(!b||!Object.hasOwn(LEDGERS,b.ledger)||!validMonth(b.month)||!Number.isSafeInteger(b.amount_cents)||b.amount_cents<=0||b.amount_cents>MONEY_LIMIT||budgetKeys.has(b.ledger+':'+b.month))fail();
+    budgetKeys.add(b.ledger+':'+b.month);
+  }
+  return {expenses:structuredClone(expenses),budgets:structuredClone(budgets)};
+}
+
+const STORAGE_KEY = 'zhixing-workbench-html-v3';
+const PREVIOUS_STORAGE_KEY = 'zhixing-workbench-html-v2';
 const LEGACY_STORAGE_KEY = 'zhixing-workbench-html-v1';
-function freshStore() {return {schema:2,entities:[],tasks:[],reviews:[]};}
+function freshStore() {return {schema:3,entities:[],tasks:[],reviews:[],expenses:[],budgets:[]};}
 function readStore() {
   let raw,legacy;
-  try {raw=localStorage.getItem(STORAGE_KEY);if(raw===null)legacy=localStorage.getItem(LEGACY_STORAGE_KEY);} catch {throw new Error('当前浏览器不允许保存数据。请用普通浏览模式，或将 HTML 放到您自己的静态网站中访问。');}
+  try {raw=localStorage.getItem(STORAGE_KEY);if(raw===null){legacy=localStorage.getItem(PREVIOUS_STORAGE_KEY);if(legacy===null)legacy=localStorage.getItem(LEGACY_STORAGE_KEY);}} catch {throw new Error('当前浏览器不允许保存数据。请用普通浏览模式，或将 HTML 放到您自己的静态网站中访问。');}
   if(raw===null&&legacy===null)return freshStore();
   let store;
   try {store=validateStore(JSON.parse(raw===null?legacy:raw));} catch {throw new Error('浏览器中的记录格式异常，未覆盖原数据。请保留数据并从备份恢复。');}
@@ -176,7 +231,7 @@ function validateStore(store) {
   const dateOK=v=>v==null||v===''||validDay(v);
   const textOK=v=>typeof v==='string'&&v.length<=30000;
   const idOK=v=>typeof v==='string'&&/^[a-f0-9]{32}$/.test(v);
-  if(!store||![1,2].includes(store.schema)||!Array.isArray(store.entities)||!Array.isArray(store.tasks)||!Array.isArray(store.reviews))fail();
+  if(!store||![1,2,3].includes(store.schema)||!Array.isArray(store.entities)||!Array.isArray(store.tasks)||!Array.isArray(store.reviews))fail();
   if(store.entities.length+store.tasks.length+store.reviews.length>20000)fail();
   const ids=new Map();
   for(const e of store.entities){
@@ -219,12 +274,13 @@ function validateStore(store) {
     if(!r||!idOK(r.id)||rids.has(r.id)||ids.get(r.entity_id)?.kind!=='mistake'||!['independent','hint','incorrect'].includes(r.result)||!textOK(r.note)||!textOK(r.reviewed)||!dateOK(r.next_review))fail();
     rids.add(r.id);
   }
-  return {schema:2,entities:structuredClone(store.entities),tasks,reviews:structuredClone(store.reviews)};
+  const financial=validateExpenses(store,ids,tids,fail);
+  return {schema:3,entities:structuredClone(store.entities),tasks,reviews:structuredClone(store.reviews),...financial};
 }
 function newId(){if(crypto.randomUUID)return crypto.randomUUID().replaceAll('-','');return [...crypto.getRandomValues(new Uint8Array(16))].map(n=>n.toString(16).padStart(2,'0')).join('');}
 async function api(path,options={}){
   const store=readStore(),method=options.method||'GET',body=options.body;
-  if(path==='/state')return {...structuredClone(store),entities:[...store.entities].sort((a,b)=>b.updated.localeCompare(a.updated)),tasks:[...store.tasks].reverse(),reviews:[...store.reviews].reverse(),documents:[],jobs:[],backups:[],csrf:'browser-only',version:'HTML 2.0'};
+  if(path==='/state')return {...structuredClone(store),entities:[...store.entities].sort((a,b)=>b.updated.localeCompare(a.updated)),tasks:[...store.tasks].reverse(),reviews:[...store.reviews].reverse(),documents:[],jobs:[],backups:[],csrf:'browser-only',version:'HTML 3.0'};
   const now=new Date().toISOString();let result;
   if(path==='/entities'&&method==='POST'){
     result={...body,id:newId(),created:now,updated:now};store.entities.push(result);
@@ -236,6 +292,17 @@ async function api(path,options={}){
     const t=store.tasks.find(t=>t.id===path.split('/')[2]);if(!t)throw new Error('任务不存在');const status=body.status||t.status;Object.assign(t,body,{id:t.id,created:t.created,updated:now,completed:status==='done'?(t.completed||now):status==='archived'?t.completed:null});result=normalizeTask(t);
   }else if(/^\/entities\/[a-f0-9]{32}\/reviews$/.test(path)&&method==='POST'){
     const e=store.entities.find(e=>e.id===path.split('/')[2]);if(e?.kind!=='mistake')throw new Error('只有错题可以记录再练');result={...body,id:newId(),entity_id:e.id,reviewed:now};store.reviews.push(result);e.details.next_review=body.next_review;e.updated=now;
+  }else if(path==='/expenses'&&method==='POST'){
+    result={...body,id:newId(),created:now,updated:now};store.expenses.push(result);
+  }else if(/^\/expenses\/[a-f0-9]{32}$/.test(path)&&['PUT','DELETE'].includes(method)){
+    const index=store.expenses.findIndex(e=>e.id===path.split('/')[2]);if(index<0)throw new Error('消费记录不存在');
+    if(method==='DELETE'){result=store.expenses.splice(index,1)[0];}
+    else {const old=store.expenses[index];result={...old,...body,id:old.id,created:old.created,updated:now};store.expenses[index]=result;}
+  }else if(path==='/budgets'&&method==='PUT'){
+    const index=store.budgets.findIndex(b=>b.ledger===body.ledger&&b.month===body.month);
+    if(!Object.hasOwn(LEDGERS,body.ledger)||!validMonth(body.month))throw new Error('预算账本或月份不正确');
+    if(body.amount_cents===null){if(index>=0)store.budgets.splice(index,1);result=null;}
+    else {result={ledger:body.ledger,month:body.month,amount_cents:body.amount_cents};if(index>=0)store.budgets[index]=result;else store.budgets.push(result);}
   }else throw new Error('单文件 HTML 版不提供此项后端功能。');
   saveStore(store);return structuredClone(result);
 }
@@ -373,9 +440,9 @@ function renderDetail(e){
   const html=renderDetailBase(e);
   const parentLink=e.kind==='project'?state.entities.filter(x=>x.kind==='learning'&&x.details.project_id===e.id&&x.status!=='archived'):[];
   const linked=parentLink.length?`<section class="panel"><div class="section-heading"><h2>关联学习</h2></div>${parentLink.map(x=>`<a class="recent-item" href="#learning/${x.id}">${icon('learning')}<div><h3>${esc(x.title)}</h3><p>${esc(x.details.topic||'学习笔记')}</p></div></a>`).join('')}</section>`:'';
-  return html.replace(/<aside>[\s\S]*<\/aside>/,`<aside>${linked}<section class="panel"><div class="section-heading"><h2>随手记，也记得备份</h2>${icon('file')}</div><p class="subtitle">记录保存在此浏览器，不会自动同步到其他设备。建议定期导出，尤其是在清理浏览器或更换电脑前。</p><div class="info-note">单文件版保留项目、学习、考试、错题和任务。附件库与 AI 文件交接请使用原来的本地服务版。</div>${actionButton('export-browser','导出全部记录','','small')}<a class="button subtle" href="#settings">数据管理 →</a></section></aside>`);
+  return html.replace(/<aside>[\s\S]*<\/aside>/,`<aside>${expenseLinkedPanel('entity',e.id)}${linked}<section class="panel"><div class="section-heading"><h2>随手记，也记得备份</h2>${icon('file')}</div><p class="subtitle">记录保存在此浏览器，不会自动同步到其他设备。建议定期导出，尤其是在清理浏览器或更换电脑前。</p><div class="info-note">单文件版保留项目、学习、考试、错题和任务。附件库与 AI 文件交接请使用原来的本地服务版。</div>${actionButton('export-browser','导出全部记录','','small')}<a class="button subtle" href="#settings">数据管理 →</a></section></aside>`);
 }
-function renderSettings(){return heading('BROWSER EDITION 2.0 / 单文件网页版','您的记录，留在这个浏览器。','近期事项、科研、学习与家庭教育，共同组成日常工作台。')+`<div class="settings-grid"><section class="panel"><div class="section-heading"><h2>保存与导出</h2>${icon('file')}</div><p>当前共有 ${state.entities.length} 条业务记录、${state.tasks.filter(t=>isRecent(t)).length} 项近期事项、${state.tasks.filter(t=>!isRecent(t)).length} 项普通任务、${state.reviews.length} 次再练。记录保存在当前浏览器。</p><div class="inline-actions">${actionButton('export-browser','下载 JSON 备份')}${actionButton('import-browser','从 JSON 备份恢复','','')}</div><div class="info-note">支持导入版本 1 和版本 2 的备份。首次升级会复制旧记录到版本 2，保留原版本 1 存储。隐私浏览、清除网站数据、更换浏览器或网址，都可能使记录不可用，请定期下载备份。</div></section><section class="panel"><div class="section-heading"><h2>使用与发布</h2>${icon('settings')}</div><p>这是一份独立 HTML，样式和程序都已内嵌，没有外部字体、接口或 CDN。可直接打开，也可放在您自己的 HTTPS 静态网站中。</p><p>发布网页只发布程序，记录不会随文件上传。不同浏览器、不同设备的数据互相独立；没有登录、云同步和权限隔离。</p>${actionButton('privacy',hideFamily?'显示家庭内容':'演示时隐藏家庭内容','','small')}<p>家庭领域的近期事项也会隐藏；导出的备份仍包含全部记录。</p></section><section class="panel full"><div class="section-heading"><h2>事项与提醒</h2></div><p>近期事项支持行程、会议、关注、提交资料、办理、等待反馈、预约与活动。它与全部任务共用记录。时间按北京时间显示；页面打开时显示今日、7 天、逾期和到期跟进摘要，每分钟更新。已结束的会议、行程和活动保留在“待收尾”。页面关闭后不发送推送。</p><p>复制新建会清空日期、提交回执、会后反馈、完成状态和清单勾选。附件上传、AI 任务包、OCR 和多设备同步未包含在单文件版中。</p></section></div>`;}
+function renderSettings(){return heading('BROWSER EDITION 3.0 / 单文件网页版','您的记录，留在这个浏览器。','近期事项、科研、学习、家庭教育与消费，共同组成日常工作台。')+`<div class="settings-grid"><section class="panel"><div class="section-heading"><h2>保存与导出</h2>${icon('file')}</div><p>当前共有 ${state.entities.length} 条业务记录、${state.tasks.filter(t=>isRecent(t)).length} 项近期事项、${state.tasks.filter(t=>!isRecent(t)).length} 项普通任务、${state.reviews.length} 次再练、${state.expenses.length} 笔消费、${state.budgets.length} 项月度预算。记录保存在当前浏览器。</p><div class="inline-actions">${actionButton('export-browser','下载 JSON 备份')}${actionButton('import-browser','从 JSON 备份恢复','','')}</div><div class="info-note">支持导入版本 1、2、3 的备份。首次升级会优先复制版本 2（或版本 1）到版本 3，保留原存储作为升级前副本。消费和预算随 JSON 一起备份恢复。隐私浏览、清除网站数据、更换浏览器或网址，都可能使记录不可用，请定期下载备份。</div></section><section class="panel"><div class="section-heading"><h2>使用与发布</h2>${icon('settings')}</div><p>这是一份独立 HTML，样式和程序都已内嵌，没有外部字体、接口或 CDN。可直接打开，也可放在您自己的 HTTPS 静态网站中。</p><p>发布网页只发布程序，记录不会随文件上传。不同浏览器、不同设备的数据互相独立；没有登录、云同步和权限隔离。</p>${actionButton('privacy',hideFamily?'显示家庭内容':'演示时隐藏家庭内容','','small')}<p>家庭领域的近期事项、家庭消费和相关金额也会隐藏；个人家庭账本的预算概况一并隐藏。导出的备份仍包含全部记录。</p></section><section class="panel full"><div class="section-heading"><h2>事项与提醒</h2></div><p>近期事项支持行程、会议、关注、提交资料、办理、等待反馈、预约与活动。它与全部任务共用记录。时间按北京时间显示；页面打开时显示今日、7 天、逾期和到期跟进摘要，每分钟更新。已结束的会议、行程和活动保留在“待收尾”。页面关闭后不发送推送。</p><p>复制新建会清空日期、提交回执、会后反馈、完成状态和清单勾选。附件上传、AI 任务包、OCR 和多设备同步未包含在单文件版中。</p></section></div>`;}
 function downloadJSON(store,prefix='知行工作台备份'){
   const blob=new Blob([JSON.stringify({...store,exported_at:new Date().toISOString()},null,2)],{type:'application/json;charset=utf-8'});
   const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`${prefix}-${new Date().toISOString().replace(/[:.]/g,'-')}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);
@@ -394,7 +461,7 @@ $('#backup-input').addEventListener('change',async event=>{
   try{
     if(file.size>5*1024*1024)throw new Error('备份超过 5 MB，不能在这个轻量版本中导入。');
     pendingImport=validateStore(JSON.parse(await file.text()));
-    openDialog('恢复浏览器记录',`<form id="import-form"><div class="dialog-body"><p class="subtitle">将恢复 ${pendingImport.entities.length} 条记录、${pendingImport.tasks.length} 项任务和 ${pendingImport.reviews.length} 次再练。此操作会替换当前记录。</p><div class="info-note">先下载并保留当前记录，确认文件已保存后再继续。如果取消，原有数据不会变化。</div><button type="button" class="button" data-action="download-before-import">先下载当前记录</button><label class="check-field"><input type="checkbox" id="import-check" disabled required>我已确认当前记录的备份文件下载成功</label>${field('confirmation','请输入“恢复记录”','','text',{required:true})}<div class="form-error" id="import-error" role="alert"></div></div><div class="dialog-actions"><button type="button" class="button" data-action="close">取消</button><button type="submit" class="button primary">恢复记录</button></div></form>`);
+    openDialog('恢复浏览器记录',`<form id="import-form"><div class="dialog-body"><p class="subtitle">将恢复 ${pendingImport.entities.length} 条记录、${pendingImport.tasks.length} 项任务和 ${pendingImport.reviews.length} 次再练、${pendingImport.expenses.length} 笔消费和 ${pendingImport.budgets.length} 项预算。此操作会替换当前记录。</p><div class="info-note">先下载并保留当前记录，确认文件已保存后再继续。如果取消，原有数据不会变化。</div><button type="button" class="button" data-action="download-before-import">先下载当前记录</button><label class="check-field"><input type="checkbox" id="import-check" disabled required>我已确认当前记录的备份文件下载成功</label>${field('confirmation','请输入“恢复记录”','','text',{required:true})}<div class="form-error" id="import-error" role="alert"></div></div><div class="dialog-actions"><button type="button" class="button" data-action="close">取消</button><button type="submit" class="button primary">恢复记录</button></div></form>`);
   }catch(error){toast(error.message);pendingImport=null;}
 });
 document.addEventListener('submit',async event=>{
@@ -410,27 +477,28 @@ moduleNames.general='综合';names.recent='近期事项';Object.assign(statusNam
 let recentRange='30',recentType='all',recentStatus='active',recentDraft=null;
 function route(){
   const [page,id]=location.hash.slice(1).split('/');
-  view=['overview','recent','research','learning','education','tasks','settings'].includes(page)?page:'overview';selected=id||null;
+  view=['overview','recent','research','learning','education','expenses','tasks','settings'].includes(page)?page:'overview';selected=id||null;
   search='';$('#search').value='';statusFilter='active';
   if(view==='recent'){recentRange=['today','7','30','all','overdue','followup','wrapup'].includes(id)?id:'30';selected=null;recentType='all';recentStatus='active';}
+  if(view==='expenses'){if(Object.hasOwn(LEDGERS,id||''))expenseLedger=id;selected=null;expenseCategory='all';expenseLinkFilter='all';}
   if(hideFamily&&view==='education'){view='overview';selected=null;}
   render();window.scrollTo(0,0);
 }
 function render(){
   if(!state)return;
-  const nav=[['overview','home','总览'],['recent','clock','近期事项'],['research','research','科研'],['learning','learning','学习'],...(!hideFamily?[['education','education','家庭教育']]:[]),['tasks','task','全部任务'],['settings','settings','数据备份']];
+  const nav=[['overview','home','总览'],['recent','clock','近期事项'],['research','research','科研'],['learning','learning','学习'],...(!hideFamily?[['education','education','家庭教育']]:[]),['expenses','expenses','消费'],['tasks','task','全部任务'],['settings','settings','数据备份']];
   $('#navigation').innerHTML=nav.map(([id,i,title])=>`<a href="#${id}" aria-label="${title}" title="${title}" class="nav-item ${view===id?'active':''}" ${view===id?'aria-current="page"':''}>${icon(i)}<span>${title}</span>${view===id?'<i class="nav-dot"></i>':''}</a>`).join('');
   $('#privacy-button').textContent=hideFamily?'显示家庭内容':'隐藏家庭内容';
   $('#breadcrumbs').textContent=`我的工作台 / ${view==='learning'?'个人学习':names[view]||'科研'}`;
   const record=selected?entityById(selected):null;
-  let html=record&&visibleEntity(record)?renderDetail(record):view==='overview'?renderOverview():view==='recent'?renderRecent():view==='tasks'?renderTasks():view==='settings'?renderSettings():renderModule();
+  let html=record&&visibleEntity(record)?renderDetail(record):view==='overview'?renderOverview():view==='recent'?renderRecent():view==='expenses'?renderExpenses():view==='tasks'?renderTasks():view==='settings'?renderSettings():renderModule();
   if(hideFamily)html='<div class="privacy-banner">家庭内容已在当前页面隐藏。'+actionButton('privacy','恢复显示','','subtle')+'</div>'+html;
   $('#main').innerHTML=html;
 }
 function renderOverview(){
   const counts=recentSummary(state.tasks,new Date(),hideFamily,state.entities);
   const summary=`<section class="metric-card recent-summary"><div class="section-heading"><h2>近期事项</h2><a class="button subtle" href="#recent">全部 →</a></div><div class="metrics">${[['today','今日安排',counts.today],['7','未来 7 天',counts.week],['overdue','截止已逾期',counts.overdue],['followup','需要跟进',counts.followup]].map(([range,label,count])=>`<a href="#recent/${range}" class="summary-link" aria-label="${label}，${count}项"><div class="metric-value ${range==='overdue'&&count?'alert':''}">${count}</div><div class="metric-label">${label}</div></a>`).join('')}</div></section>`;
-  return renderOverviewBase().replace(/<section class="metric-card">[\s\S]*?<\/section>/,summary);
+  return renderOverviewBase().replace(/<section class="metric-card">[\s\S]*?<\/section>/,summary).replace('<div class="lower-grid">',expenseOverview()+'<div class="lower-grid">');
 }
 function recentSelect(id,label,value,options){return `<label class="recent-filter"><span>${label}</span><select id="${id}">${options.map(([v,n])=>`<option value="${v}" ${value===v?'selected':''}>${n}</option>`).join('')}</select></label>`;}
 function renderRecent(){
@@ -461,7 +529,7 @@ function recentRow(t,compact=false){
 function taskPayload(t,status=t.status){return {...t,status,milestone:Boolean(t.milestone)};}
 function taskForm(id=null,entityId=null){const t=state.tasks.find(t=>t.id===id);if(t&&isRecent(t))return recentForm(id);return taskFormBase(id,entityId);}
 function quickDialog(){
-  const choices=[['recent-new','clock','近期事项','行程、会议、提交与跟进。',''],['new-task','task','下一步任务','先记录，再慢慢整理。',''],['new-entity','research','科研项目','目标、节点和成果。','project'],['new-entity','learning','学习与笔记','把理解留下来。','learning'],...(!hideFamily?[['new-entity','education','考试复盘','先看到这次的进步。','exam'],['new-entity','education','代表错题','精选几题，安排再练。','mistake']]:[])];
+  const choices=[['expense-new','expenses','记一笔消费','单位、个人与家庭支出。',''],['recent-new','clock','近期事项','行程、会议、提交与跟进。',''],['new-task','task','下一步任务','先记录，再慢慢整理。',''],['new-entity','research','科研项目','目标、节点和成果。','project'],['new-entity','learning','学习与笔记','把理解留下来。','learning'],...(!hideFamily?[['new-entity','education','考试复盘','先看到这次的进步。','exam'],['new-entity','education','代表错题','精选几题，安排再练。','mistake']]:[])];
   openDialog('从一条记录开始',`<div class="dialog-body"><div class="quick-grid">${choices.map(([a,i,t,d,k])=>`<button class="quick-card" data-action="${a}" data-kind="${k}">${icon(i)}<span><strong>${t}</strong><small>${d}</small></span></button>`).join('')}</div></div>`);
 }
 function specificFields(t){
@@ -500,7 +568,7 @@ function recentDetail(id){
   const labels={location:'地点 / 链接',contact:'联系人',source:'信息来源',travel_notes:'交通与住宿',after_notes:'会后行动',submission_channel:'提交渠道',receipt:'回执说明',waiting_for:'等待对象',sent_date:'发出日期',feedback:'反馈记录',watch_reason:'关注原因',notes:'备注'};
   const details=Object.entries(labels).filter(([k])=>t[k]).map(([k,label])=>`<div class="detail-field wide"><dt>${label}</dt><dd>${esc(t[k])}</dd></div>`).join('');
   const active=isOpen(t);
-  openDialog(esc(t.title),`<div class="dialog-body"><div class="task-meta"><span class="tag">${CATEGORY_NAMES[t.category]}</span>${moduleTag(t.module)}<span class="tag ${t.status==='waiting'?'gold':''}">${RECENT_STATUSES[t.status]}</span></div><div class="recent-times">${timeBadges(t)}</div>${needsWrapUp(t)?'<div class="info-note">安排已结束，尚未完成收尾。可以补充记录或将事项标记完成。</div>':''}${t.submitted_at?`<div class="info-note">已于 ${formatTime(t.submitted_at)} 提交。原截止日期保留作记录，不再计入逾期。</div>`:''}<dl class="detail-fields">${details||'<div class="detail-field wide"><dd>还没有补充说明。</dd></div>'}</dl>${t.checklist.length?`<div class="hint-label">准备 / 材料清单</div>${t.checklist.map(c=>`<label class="check-field"><input type="checkbox" data-recent-check="${c.id}" data-id="${t.id}" ${c.done?'checked':''} ${t.status==='archived'?'disabled':''}>${esc(c.text)}</label>`).join('')}`:''}</div>`,`<div class="dialog-actions recent-detail-actions">${actionButton('recent-edit','编辑',`data-id="${id}"`,'')}${actionButton('recent-copy','复制新建',`data-id="${id}"`,'')}${t.status==='archived'?actionButton('recent-state','恢复归档',`data-id="${id}" data-status="restore"`,'primary'):actionButton('recent-state','归档',`data-id="${id}" data-status="archived"`,'')}${active?actionButton('recent-state','取消事项',`data-id="${id}" data-status="cancelled"`,'subtle'):t.status!=='archived'?actionButton('recent-state','重新打开',`data-id="${id}" data-status="todo"`,''):''}${active&&t.category==='submission'&&!t.submitted_at?actionButton('recent-submit','标记已提交',`data-id="${id}"`,'primary'):active?actionButton('recent-state','完成',`data-id="${id}" data-status="done"`,'primary'):''}</div>`);
+  openDialog(esc(t.title),`<div class="dialog-body"><div class="task-meta"><span class="tag">${CATEGORY_NAMES[t.category]}</span>${moduleTag(t.module)}<span class="tag ${t.status==='waiting'?'gold':''}">${RECENT_STATUSES[t.status]}</span></div><div class="recent-times">${timeBadges(t)}</div>${needsWrapUp(t)?'<div class="info-note">安排已结束，尚未完成收尾。可以补充记录或将事项标记完成。</div>':''}${t.submitted_at?`<div class="info-note">已于 ${formatTime(t.submitted_at)} 提交。原截止日期保留作记录，不再计入逾期。</div>`:''}<dl class="detail-fields">${details||'<div class="detail-field wide"><dd>还没有补充说明。</dd></div>'}</dl>${expenseLinkedPanel('task',t.id)}${t.checklist.length?`<div class="hint-label">准备 / 材料清单</div>${t.checklist.map(c=>`<label class="check-field"><input type="checkbox" data-recent-check="${c.id}" data-id="${t.id}" ${c.done?'checked':''} ${t.status==='archived'?'disabled':''}>${esc(c.text)}</label>`).join('')}`:''}</div>`,`<div class="dialog-actions recent-detail-actions">${actionButton('recent-edit','编辑',`data-id="${id}"`,'')}${actionButton('recent-copy','复制新建',`data-id="${id}"`,'')}${t.status==='archived'?actionButton('recent-state','恢复归档',`data-id="${id}" data-status="restore"`,'primary'):actionButton('recent-state','归档',`data-id="${id}" data-status="archived"`,'')}${active?actionButton('recent-state','取消事项',`data-id="${id}" data-status="cancelled"`,'subtle'):t.status!=='archived'?actionButton('recent-state','重新打开',`data-id="${id}" data-status="todo"`,''):''}${active&&t.category==='submission'&&!t.submitted_at?actionButton('recent-submit','标记已提交',`data-id="${id}"`,'primary'):active?actionButton('recent-state','完成',`data-id="${id}" data-status="done"`,'primary'):''}</div>`);
 }
 function submissionForm(id){const t=state.tasks.find(t=>t.id===id);formDialog('记录资料提交','submission',`<div class="info-note field wide">保存后记录当前提交时间，进入等待反馈，并停止计算原提交截止日期的逾期。</div>`+field('receipt','提交回执 / 说明',t.receipt,'textarea',{wide:true})+field('waiting_for','等待对象',t.waiting_for,'text',{wide:true})+field('follow_up_date','下次跟进日期',t.follow_up_date||'','date',{wide:true}),`data-id="${id}"`,'标记已提交');$('#editor').id='submission-editor';}
 async function updateRecent(id,changes){const t=state.tasks.find(t=>t.id===id);await api('/tasks/'+id,{method:'PUT',body:{...t,...changes}});await reload();}
@@ -552,6 +620,118 @@ document.addEventListener('submit',async event=>{
 });
 // Refresh time-sensitive summaries while the page stays open, without interrupting forms.
 setInterval(()=>{if(state&&!busy&&!$('#dialog').open&&['overview','recent'].includes(view))render();},60000);
+
+names.expenses='消费';
+paths.expenses='<rect x="3" y="5" width="18" height="15" rx="3"/><path d="M3 9h18M15 14h3M7 3v4"/>';
+let expenseLedger='home',expenseMonth=bjDate().slice(0,7),expenseCategory='all',expenseLinkFilter='all';
+const shownExpenses=()=>state.expenses.filter(e=>visibleExpense(e,hideFamily,state.entities,state.tasks));
+const expenseVisible=e=>visibleExpense(e,hideFamily,state.entities,state.tasks);
+function expenseOverview(){
+  const month=bjDate().slice(0,7);
+  return `<section class="panel expense-overview"><div class="section-heading"><h2>本月消费 <small>${esc(month)}</small></h2><a class="button subtle" href="#expenses">记账与预算 →</a></div><div class="expense-overview-grid">${Object.entries(LEDGERS).map(([ledger,label])=>{
+    const s=expenseStats(state.expenses,ledger,month,hideFamily,state.entities,state.tasks),b=budgetState(state.budgets,ledger,month,s.total,hideFamily);
+    return `<a class="expense-overview-item" data-action="expense-current" href="#expenses/${ledger}"><span class="muted">${label}</span><strong>${money(s.total)}</strong><span>${b.hidden?'仅显示个人支出 · 家庭与预算已隐藏':b.amount===null?'暂未设置本月预算':`预算 ${money(b.amount)} · ${b.remaining<0?'超出 '+money(-b.remaining):'剩余 '+money(b.remaining)}`}</span></a>`;
+  }).join('')}</div></section>`;
+}
+function expenseLinkedName(e){
+  if(e.entity_id){const x=entityById(e.entity_id);return x&&visibleEntity(x)?x.title:'关联家庭内容已隐藏';}
+  if(e.task_id){const t=state.tasks.find(t=>t.id===e.task_id);return t&&visibleTask(t)?t.title:'关联家庭内容已隐藏';}
+  return '';
+}
+function expenseRow(e){return `<article class="expense-row"><div class="expense-row-main"><button class="expense-title" data-action="expense-open" data-id="${e.id}">${esc(e.title)}</button><div class="task-meta"><span class="tag">${esc(e.category)}</span>${e.ledger==='home'?`<span>${e.scope==='family'?'家庭':'个人'}</span>`:''}<span>${esc(e.date)}</span>${e.payment?`<span>${esc(e.payment)}</span>`:''}${e.entity_id||e.task_id?`<span class="expense-associated">关联：${esc(expenseLinkedName(e))}</span>`:''}</div></div><strong class="expense-amount">${money(e.amount_cents)}</strong></article>`;}
+function expenseMetric(label,value,extra='',tone=''){return `<div class="expense-metric ${tone}"><span>${label}</span><strong>${value}</strong><small>${extra}</small></div>`;}
+function renderExpenses(){
+  const s=expenseStats(state.expenses,expenseLedger,expenseMonth,hideFamily,state.entities,state.tasks),b=budgetState(state.budgets,expenseLedger,expenseMonth,s.total,hideFamily);
+  const rows=s.rows.filter(e=>(expenseCategory==='all'||e.category===expenseCategory)&&(expenseLinkFilter==='all'||expenseLinkFilter==='linked'&&Boolean(e.entity_id||e.task_id)||expenseLinkFilter==='none'&&!e.entity_id&&!e.task_id)&&(!search||[e.title,e.category,e.notes,e.merchant,e.payment,expenseLinkedName(e)].some(v=>v.toLowerCase().includes(search.toLowerCase())))).sort((a,b)=>b.date.localeCompare(a.date)||b.created.localeCompare(a.created));
+  const amounts=Object.entries(s.categories).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);
+  const months=Array.from({length:6},(_,i)=>shiftMonth(expenseMonth,i-5)),series=months.map(m=>expenseStats(state.expenses,expenseLedger,m,hideFamily,state.entities,state.tasks).total),max=Math.max(1,...series);
+  const budgetHidden=b.hidden;
+  return heading('EXPENSES / 消费','每一笔，都心中有数。','两个账本分别记录、统计和设置预算。',actionButton('expense-new','＋ 记一笔'))+
+    `<div class="toolbar"><div class="tabs ledger-tabs" role="group" aria-label="选择账本">${Object.entries(LEDGERS).map(([key,label])=>`<a href="#expenses/${key}" class="button ${expenseLedger===key?'active':''}" ${expenseLedger===key?'aria-current="page"':''}>${label}</a>`).join('')}</div><span class="spacer"></span><label class="recent-filter"><span>月份</span><input id="expense-month" type="month" value="${expenseMonth}" aria-label="消费月份"></label>${actionButton('expense-current','回到本月','','small')}</div>
+    ${hideFamily&&expenseLedger==='home'?'<div class="info-note">家庭内容已隐藏，金额、笔数和图表仅统计可见的个人消费；预算与剩余额度一并隐藏。</div>':''}
+    <section class="expense-metrics">${expenseMetric('当月支出',money(s.total),expenseMonth+(hideFamily&&expenseLedger==='home'?' · 仅个人':''))}${expenseMetric('月度预算',budgetHidden?'已隐藏':b.amount===null?'未设置':money(b.amount),budgetHidden?'家庭内容已隐藏':'每个账本独立设置')}${expenseMetric(b.remaining!==null&&b.remaining<0?'超出预算':'剩余预算',budgetHidden?'已隐藏':b.remaining===null?'—':money(Math.abs(b.remaining)),b.level==='over'?'已超出当月预算':b.level==='near'?'预算已使用至少 80%':'',b.level==='over'?'expense-alert':'')}${expenseMetric('消费笔数',s.count+' 笔','所选月份')}</section>
+    <section class="panel expense-budget"><div class="section-heading"><h2>月度总预算</h2>${!budgetHidden?actionButton('expense-budget','设置预算','','small'):''}</div>${budgetHidden?'<p class="muted">显示家庭内容后，可查看和设置此账本的预算。</p>':b.amount===null?'<p class="muted">为当前月份设置一个总额度，随记账更新进度。</p>':`<div class="expense-budget-label"><span>${b.level==='over'?'已超预算':b.level==='near'?'接近预算':'预算使用进度'}</span><strong>${(s.total/b.amount*100).toFixed(1)}%</strong></div><div class="progress-track ${b.level==='over'?'expense-over':''}"><span style="width:${b.percent}%"></span></div><p class="muted">已用 ${money(s.total)} / 预算 ${money(b.amount)}</p>`}</section>
+    <section class="panel expense-details"><div class="section-heading"><h2>消费明细</h2><span class="muted">筛选后 ${rows.length} 笔 · ${money(rows.reduce((sum,e)=>sum+e.amount_cents,0))}</span></div><div class="toolbar">${recentSelect('expense-category','分类',expenseCategory,[['all','全部分类'],...EXPENSE_CATEGORIES[expenseLedger].map(v=>[v,v])])}${recentSelect('expense-link-filter','关联',expenseLinkFilter,[['all','全部'],['linked','已关联'],['none','未关联']])}<span class="muted">顶部搜索可查内容、商家和备注</span></div>${rows.length?rows.map(expenseRow).join(''):empty('还没有匹配的消费','记下一笔支出，或调整月份和筛选条件。',actionButton('expense-new','＋ 记一笔','','small'),'expenses')}</section>
+    <div class="expense-charts"><section class="panel"><div class="section-heading"><h2>分类统计</h2><span class="muted">${expenseMonth}</span></div>${amounts.length?amounts.map(([category,total])=>`<div class="expense-category-row"><div><span>${esc(category)}</span><strong>${money(total)} <small>${(total/s.total*100).toFixed(1)}%</small></strong></div><div class="progress-track"><span style="width:${total/s.total*100}%"></span></div></div>`).join(''):'<p class="muted">有记录后显示消费类别和占比。</p>'}</section><section class="panel"><div class="section-heading"><h2>近六个月支出</h2></div><div class="expense-trend" role="img" aria-label="近六个月支出：${months.map((m,i)=>m+' '+money(series[i])).join('，')}">${months.map((m,i)=>`<div class="expense-trend-column"><span>${money(series[i])}</span><div class="expense-trend-track"><i style="height:${series[i]/max*100}%"></i></div><small>${m}</small></div>`).join('')}</div></section></div><p class="expense-footnote">分类统计与月度趋势按当前账本计算；明细筛选不改变月度概况。金额均为人民币。</p>`;
+}
+function expenseAmountField(name,label,value='',required=true){return `<label class="field"><span>${label}${required?' *':''}</span><input type="text" inputmode="decimal" name="${name}" value="${esc(value)}" maxlength="12" placeholder="例如 128.50" ${required?'required':''}><span class="help">人民币，最多两位小数</span></label>`;}
+function expenseLinkOptions(selectedValue=''){
+  const entities=state.entities.filter(x=>visibleEntity(x)&&(['project','learning','exam'].includes(x.kind))&&(x.status!=='archived'||selectedValue==='entity:'+x.id)).map(x=>['entity:'+x.id,`${names[x.kind]} · ${x.title}`]);
+  const tasks=state.tasks.filter(t=>visibleTask(t)&&(t.status!=='archived'||selectedValue==='task:'+t.id)).map(t=>['task:'+t.id,`${CATEGORY_NAMES[t.category]} · ${t.title}`]);
+  const options=[['','暂不关联'],...entities,...tasks];
+  if(selectedValue&&!options.some(([v])=>v===selectedValue))options.push([selectedValue,'关联家庭内容已隐藏']);
+  return options;
+}
+function expenseForm(id=null,link=''){
+  const existing=id?state.expenses.find(e=>e.id===id):null;if(existing&&!expenseVisible(existing))return;
+  const e=existing||{ledger:expenseLedger,scope:hideFamily?'personal':'family',title:'',amount_cents:null,date:bjDate(),category:'其他',payment:'',merchant:'',notes:'',entity_id:null,task_id:null};
+  const related=e.entity_id?'entity:'+e.entity_id:e.task_id?'task:'+e.task_id:link;
+  const body=field('ledger','账本',e.ledger,'select',{items:Object.entries(LEDGERS)})+`<div id="expense-scope-field" ${e.ledger==='unit'?'hidden':''}>${field('scope','个人 / 家庭',e.scope,'select',{items:[['personal','个人'],...(!hideFamily?[['family','家庭']]:[])]})}</div>`+field('title','消费内容',e.title,'text',{wide:true,required:true,placeholder:'例如：购买参考书、日常采购'})+expenseAmountField('amount','金额（元）',e.amount_cents===null?'':(e.amount_cents/100).toFixed(2))+field('date','消费日期',e.date,'date',{required:true})+field('category','分类',e.category,'select',{items:EXPENSE_CATEGORIES[e.ledger].map(v=>[v,v])})+field('payment','支付方式',e.payment,'select',{items:PAYMENT_METHODS.map(v=>[v,v||'暂不填写'])})+field('merchant','商家 / 收款方',e.merchant,'text',{wide:true})+field('related','关联事项',related,'select',{wide:true,items:expenseLinkOptions(related),help:'关联项目、学习、考试、任务或近期事项；记账与事项完成分别操作。'})+field('notes','备注',e.notes,'textarea',{wide:true});
+  formDialog(existing?'编辑消费':'记一笔','expense',body,`data-id="${id||''}"`);$('#editor').id='expense-editor';
+}
+function expenseBudgetForm(){
+  if(hideFamily&&expenseLedger==='home')return toast('请先显示家庭内容，再设置此账本预算。');
+  const b=state.budgets.find(b=>b.ledger===expenseLedger&&b.month===expenseMonth);
+  formDialog('设置月度总预算','expense-budget',`<div class="info-note field wide">${LEDGERS[expenseLedger]} · ${expenseMonth}。只设置所选月份，不自动延续到其他月份。留空保存可取消该月预算。</div>`+expenseAmountField('amount','预算金额（元）',b?(b.amount_cents/100).toFixed(2):'',false),`data-ledger="${expenseLedger}" data-month="${expenseMonth}"`);$('#editor').id='expense-budget-editor';
+}
+function expenseDetail(id){
+  const e=state.expenses.find(e=>e.id===id);if(!e||!expenseVisible(e))return;
+  const link=e.entity_id?entityById(e.entity_id):state.tasks.find(t=>t.id===e.task_id);
+  const canLink=link&&(e.entity_id?visibleEntity(link):visibleTask(link));
+  const fields=[['账本',LEDGERS[e.ledger]],['日期',e.date],['分类',e.category],['范围',e.ledger==='unit'?'单位':e.scope==='family'?'家庭':'个人'],['支付方式',e.payment||'未填写'],['商家 / 收款方',e.merchant||'未填写']];
+  openDialog('消费详情',`<div class="dialog-body"><div class="expense-detail-total">${money(e.amount_cents)}</div><h3 class="expense-detail-title">${esc(e.title)}</h3><dl class="detail-fields">${fields.map(([label,value])=>`<div class="detail-field"><dt>${label}</dt><dd>${esc(value)}</dd></div>`).join('')}<div class="detail-field wide"><dt>备注</dt><dd>${esc(e.notes||'未填写')}</dd></div>${link?`<div class="detail-field wide"><dt>关联事项</dt><dd>${canLink?e.entity_id?`<a class="button small" href="#${modules[link.kind]}/${link.id}" data-action="close">${esc(link.title)} →</a>`:actionButton('expense-linked-task',esc(link.title)+' →',`data-id="${link.id}"`,'small'): '家庭内容已隐藏'}</dd></div>`:''}</dl></div>`,`<div class="dialog-actions">${actionButton('expense-delete','删除',`data-id="${id}"`,'danger')}${actionButton('expense-edit','编辑',`data-id="${id}"`,'primary')}</div>`);
+}
+function expenseLinkedPanel(kind,id){
+  const rows=shownExpenses().filter(e=>e[kind==='entity'?'entity_id':'task_id']===id).sort((a,b)=>b.date.localeCompare(a.date));
+  return `<section class="panel expense-linked-panel"><div class="section-heading"><h2>关联消费</h2>${actionButton('expense-new','＋ 记一笔',`data-link="${kind}:${id}"`,'small')}</div>${rows.length?rows.map(expenseRow).join(''):'<p class="muted">可把相关支出关联到这里。</p>'}</section>`;
+}
+document.addEventListener('click',async event=>{
+  const button=event.target.closest('[data-action]');if(!button||busy)return;const {action,id}=button.dataset;
+  try{
+    if(action==='expense-new')return expenseForm(null,button.dataset.link||'');
+    if(action==='expense-edit')return expenseForm(id);
+    if(action==='expense-open')return expenseDetail(id);
+    if(action==='expense-current'){expenseMonth=bjDate().slice(0,7);return render();}
+    if(action==='expense-budget')return expenseBudgetForm();
+    if(action==='expense-linked-task'){const t=state.tasks.find(t=>t.id===id);if(t&&visibleTask(t)){if(isRecent(t))recentDetail(id);else taskForm(id);}return;}
+    if(action==='expense-delete'){
+      const e=state.expenses.find(e=>e.id===id);if(!e||!expenseVisible(e))return;
+      return openDialog('删除这笔消费？',`<div class="dialog-body"><p>${esc(e.title)} · ${money(e.amount_cents)}</p><div class="info-note">删除后将重新计算月度统计。已下载的备份仍保留原记录。</div><div class="form-error" id="expense-delete-error" role="alert"></div></div>`,`<div class="dialog-actions">${actionButton('close','取消','','')}${actionButton('expense-delete-confirm','确认删除',`data-id="${id}"`,'danger')}</div>`);
+    }
+    if(action==='expense-delete-confirm'){busy=true;button.disabled=true;await api('/expenses/'+id,{method:'DELETE'});$('#dialog').close();await reload();toast('消费已删除');}
+  }catch(error){const box=$('#expense-delete-error');if(box)box.textContent=error.message;else toast(error.message);}finally{busy=false;button.disabled=false;}
+});
+document.addEventListener('change',event=>{
+  const input=event.target;
+  if(input.id==='expense-month'){if(validMonth(input.value)){expenseMonth=input.value;render();}return;}
+  if(input.id==='expense-category'){expenseCategory=input.value;render();return;}
+  if(input.id==='expense-link-filter'){expenseLinkFilter=input.value;render();return;}
+  const form=input.closest('#expense-editor');if(!form)return;
+  if(input.name==='ledger'){
+    const category=form.elements.category,current=category.value;
+    category.innerHTML=EXPENSE_CATEGORIES[input.value].map(v=>`<option value="${esc(v)}" ${v===current?'selected':''}>${esc(v)}</option>`).join('');
+    if(!EXPENSE_CATEGORIES[input.value].includes(current))category.value='其他';
+    $('#expense-scope-field').hidden=input.value==='unit';
+  }
+});
+document.addEventListener('submit',async event=>{
+  const form=event.target;if(!['expense-editor','expense-budget-editor'].includes(form.id))return;event.preventDefault();if(busy)return;
+  busy=true;const submit=form.querySelector('[type=submit]');submit.disabled=true;$('#form-error').textContent='';
+  try{
+    const data=Object.fromEntries(new FormData(form).entries());
+    if(form.id==='expense-budget-editor'){
+      await api('/budgets',{method:'PUT',body:{ledger:form.dataset.ledger,month:form.dataset.month,amount_cents:data.amount.trim()?parseMoney(data.amount):null}});
+    }else{
+      const [kind,id]=data.related.split(':');
+      const body={ledger:data.ledger,scope:data.ledger==='unit'?'personal':data.scope||'family',title:data.title.trim(),amount_cents:parseMoney(data.amount),date:data.date,category:data.category,payment:data.payment,merchant:data.merchant.trim(),notes:data.notes,entity_id:kind==='entity'?id:null,task_id:kind==='task'?id:null};
+      if(body.ledger==='home'&&familyLinkedExpense(body,state.entities,state.tasks))body.scope='family';
+      await api(form.dataset.id?'/expenses/'+form.dataset.id:'/expenses',{method:form.dataset.id?'PUT':'POST',body});
+      expenseLedger=body.ledger;
+      if(view==='expenses'){expenseMonth=body.date.slice(0,7);expenseCategory='all';expenseLinkFilter='all';location.hash='#expenses/'+body.ledger;}
+    }
+    $('#dialog').close();await reload();toast(form.id==='expense-budget-editor'?'本月预算已保存':'消费已保存');
+  }catch(error){$('#form-error').textContent=error.message;}finally{busy=false;submit.disabled=false;}
+});
 
 api('/state').then(result=>{state=result;route();}).catch(error=>{$('#main').innerHTML=`<div class="error-box"><h2>暂时无法打开浏览器存储</h2><p>${esc(error.message)}</p><p>请使用普通浏览模式，允许此页面存储数据，再刷新重试。</p></div>`;});
 
